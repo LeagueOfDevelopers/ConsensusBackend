@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using Consensus.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,16 @@ namespace Consensus
                 options.IncludeXmlComments(xmlPath);
                 options.DescribeAllEnumsAsStrings();
             });
+
+            var optionModel = new OptionModel()
+            {
+                Secret = Configuration.GetValue<string>("Secret"),
+                OpenviduUrl = Configuration.GetValue<string>("OpenviduUrl"),
+                OpenviduPort = Configuration.GetValue<string>("OpenviduPort"),
+
+            };
+
+            services.AddSingleton(optionModel);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
