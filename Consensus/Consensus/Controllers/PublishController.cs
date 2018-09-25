@@ -44,7 +44,7 @@ namespace Consensus.Controllers
 
         private string ExecuteRequest(string path, RestRequest request)
         {
-            var _client = new RestClient(_optionModel.OpenviduUrl + ":" + _optionModel.OpenviduPort + path);
+            var _client = new RestClient(_optionModel.OpenviduUrl + path);
             var response = _client.Execute(request);
 
             return response.Content;

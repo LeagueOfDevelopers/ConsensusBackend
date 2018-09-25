@@ -58,9 +58,7 @@ namespace Consensus
             var optionModel = new OptionModel()
             {
                 Secret = Configuration.GetValue<string>("Secret"),
-                OpenviduUrl = Configuration.GetValue<string>("OpenviduUrl"),
-                OpenviduPort = Configuration.GetValue<string>("OpenviduPort"),
-
+                OpenviduUrl = Configuration.GetValue<string>("OpenviduUrl")
             };
 
             services.AddSingleton(optionModel);
