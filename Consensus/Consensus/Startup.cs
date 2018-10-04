@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
+using Consensus.Filters;
 using Consensus.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using ConsensusLibrary.UserContext;
+using ConsensusLibrary.CryptoContext;
 
 namespace Consensus
 {
@@ -29,6 +27,12 @@ namespace Consensus
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var userRepository = new InMemoryUserRepository();
+            var cryptoService = new CryptoServiceWithSalt();
+            var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+
+            services.AddSingleton<IRegistrationFacade>(registrationFacade);
+
             ServicePointManager.ServerCertificateValidationCallback +=
             (sender, certificate, chain, sslPolicyErrors) => true;
 
@@ -63,7 +67,11 @@ namespace Consensus
 
             services.AddSingleton(optionModel);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(o => 
+            {
+                o.Filters.Add(new ExceptionFilter());
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

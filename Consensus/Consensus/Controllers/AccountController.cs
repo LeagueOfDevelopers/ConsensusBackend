@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Consensus.Models.AccountModels;
+using ConsensusLibrary.UserContext;
+using EnsureThat;
 
 namespace Consensus.Controllers
 {
@@ -11,12 +9,24 @@ namespace Consensus.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        public AccountController(IRegistrationFacade registrationFacade)
+        {
+            _registrationFacade = Ensure.Any.IsNotNull(registrationFacade);
+        }
 
         [HttpPost]
         [Route("registration")]
-        public IActionResult Registration()
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(RegistrationResponseModel), 200)]
+        public IActionResult Registration([FromBody] RegistrationRequestModel model)
         {
-            return Ok();
+            var newId = _registrationFacade.RegistrateUser(model.Email, model.NickName, model.Password);
+
+            var response = new RegistrationResponseModel(newId.Id);
+
+            return Ok(response);
         }
+
+        private readonly IRegistrationFacade _registrationFacade;
     }
 }
