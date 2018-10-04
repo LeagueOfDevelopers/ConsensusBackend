@@ -72,6 +72,12 @@ namespace Consensus
                 o.Filters.Add(new ExceptionFilter());
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +87,8 @@ namespace Consensus
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowAnyOrigin");
 
             app.UseMvc();
 
