@@ -10,5 +10,10 @@ namespace ConsensusLibrary.Tools
         {
             Id = Guid.NewGuid();
         }
+
+        public override string ToString()
+        {
+            return Id.ToString();
+        }
     }
 }
