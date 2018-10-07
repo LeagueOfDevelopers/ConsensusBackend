@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using ConsensusLibrary.UserContext;
+using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.CryptoContext;
 
 namespace Consensus
@@ -31,7 +32,12 @@ namespace Consensus
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
 
+            var debateRepository = new InMemoryDebateRepository();
+            var debateFacade = new DebateFacade(userRepository, debateRepository);
+
+
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
+            services.AddSingleton<IDebateFacade>(debateFacade);
 
             ServicePointManager.ServerCertificateValidationCallback +=
             (sender, certificate, chain, sslPolicyErrors) => true;

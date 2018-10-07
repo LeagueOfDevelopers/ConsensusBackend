@@ -1,4 +1,5 @@
 ﻿using System;
+using EnsureThat;
 
 namespace ConsensusLibrary.Tools
 {
@@ -9,6 +10,11 @@ namespace ConsensusLibrary.Tools
         internal Identifier()
         {
             Id = Guid.NewGuid();
+        }
+
+        public Identifier(Guid id)
+        {
+            Id = Ensure.Guid.IsNotEmpty(id);
         }
 
         public override string ToString()

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using ConsensusLibrary.DebateContext;
 
 namespace Consensus.Models.DebateModels
 {
@@ -47,7 +48,7 @@ namespace Consensus.Models.DebateModels
         /// Тема дебатов
         /// </summary>
         [Required]
-        public DebateTheme Theme { get; }
+        public DebateCategory Theme { get; }
         /// <summary>
         /// Миниатюра дебатов
         /// </summary>
@@ -62,7 +63,7 @@ namespace Consensus.Models.DebateModels
             string firstDebaterName,
             string secondDebaterName,
             string spectatorsCount,
-            DebateTheme theme,
+            DebateCategory theme,
             IFormFile thumbnail)
         {
             Id = id;

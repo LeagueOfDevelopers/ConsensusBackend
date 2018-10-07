@@ -58,7 +58,10 @@ namespace ConsensusLibrary.UserContext
             Ensure.String.IsNotNullOrWhiteSpace(email);
             Ensure.String.IsNotNullOrWhiteSpace(nickName);
 
-            var result = _users.FirstOrDefault(u => u.Credentials.Email == email || u.Credentials.NickName == nickName);
+            email = email.ToLower();
+            nickName = nickName.ToLower();
+
+            var result = _users.FirstOrDefault(u => u.Credentials.Email.ToLower() == email || u.Credentials.NickName.ToLower() == nickName);
 
             return result; ;
         }
