@@ -4,6 +4,7 @@ using EnsureThat;
 using Microsoft.AspNetCore.Mvc;
 using ConsensusLibrary.Tools;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Consensus.Controllers
 {
@@ -19,8 +20,10 @@ namespace Consensus.Controllers
         /// <summary>
         /// Добавляет дебаты
         /// </summary>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(AddDebateResponseModel), 200)]
+        [ProducesResponseType(401)]
         public IActionResult AddDebate([FromBody] AddDebateRequestModel model)
         {
             var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.EndDateTime, model.Title, new Identifier(model.InviterOpponent),

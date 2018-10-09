@@ -2,8 +2,10 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using Consensus.Filters;
 using Consensus.Models;
+using Consensus.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using ConsensusLibrary.UserContext;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.CryptoContext;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Consensus
 {
@@ -38,6 +43,8 @@ namespace Consensus
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
             services.AddSingleton<IDebateFacade>(debateFacade);
+
+            ConfigureSecurity(services);
 
             ServicePointManager.ServerCertificateValidationCallback +=
             (sender, certificate, chain, sslPolicyErrors) => true;
@@ -100,6 +107,44 @@ namespace Consensus
 
             app.UseSwagger();
             app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
+        }
+
+        private void ConfigureSecurity(IServiceCollection services)
+        {
+            var securityConfiguration = Configuration.GetSection("Security");
+            var securitySettings = new SecuritySettings(
+                securityConfiguration["EncryptionKey"], securityConfiguration["Issue"],
+                securityConfiguration.GetValue<TimeSpan>("ExpirationPeriod"));
+            var jwtIssuer = new JwtIssuer(securitySettings);
+            services.AddSingleton(securitySettings);
+            services.AddSingleton<IJwtIssuer>(jwtIssuer);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(securitySettings.EncryptionKey))
+                    };
+                });
+
+            services
+                .AddAuthorization(options =>
+                {
+                    options.DefaultPolicy =
+                        new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                            .RequireAuthenticatedUser().Build();
+
+                    options.AddPolicy("AdminOnly",
+                        new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                            .RequireClaim(Claims.Roles.RoleClaim, Claims.Roles.Admin).Build());
+                });
         }
     }
 }

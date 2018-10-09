@@ -1,10 +1,11 @@
 ﻿using ConsensusLibrary.Tools;
+using ConsensusLibrary.UserContext.Views;
 
 namespace ConsensusLibrary.UserContext
 {
     public interface IRegistrationFacade
     {
-        Identifier RegistrateUser(string email, string nickName, string password);
-        bool CheckUserExistence(string email, string password);
+        Identifier RegisterUser(string email, string nickName, string password);
+        CheckUserExistenceView CheckUserExistence(string email, string password);
     }
 }

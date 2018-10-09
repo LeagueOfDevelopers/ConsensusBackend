@@ -3,6 +3,8 @@ using EnsureThat;
 using System;
 using ConsensusLibrary.UserContext.Exceptions;
 using ConsensusLibrary.Tools;
+using ConsensusLibrary.UserContext.Views;
+
 namespace ConsensusLibrary.UserContext
 {
     public class RegistrationFacade : IRegistrationFacade
@@ -15,21 +17,22 @@ namespace ConsensusLibrary.UserContext
             _cryptoService = Ensure.Any.IsNotNull(cryptoService);
         }
 
-        public bool CheckUserExistence(string email, string password)
+        public CheckUserExistenceView CheckUserExistence(string email, string password)
         {
             Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email), opt => opt.WithException(new ArgumentNullException()));
             Ensure.String.IsNotNullOrWhiteSpace(password, nameof(password), opt => opt.WithException(new ArgumentNullException()));
 
             email = email.ToLower().Replace(" ", "");
 
-            var passwordHash = _cryptoService.CalculateHash(password);
-
             var user = _userRepository.TryGetUserByEmail(email);
 
-            return user != null && _cryptoService.CompareHashWithString(user?.Credentials.PasswordHash, password);
+            if (user != null && _cryptoService.CompareHashWithString(user.Credentials.PasswordHash, password))
+                return new CheckUserExistenceView(user.Identifier);
+
+            return null;
         }
 
-        public Identifier RegistrateUser(string email, string nickName, string password)
+        public Identifier RegisterUser(string email, string nickName, string password)
         {
             Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email), opt => opt.WithException(new ArgumentNullException()));
             Ensure.String.IsNotNullOrWhiteSpace(nickName, nameof(email), opt => opt.WithException(new ArgumentNullException()));
