@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Consensus.Models.AccountModels;
+﻿using Consensus.Models.AccountModels;
 using Consensus.Security;
 using ConsensusLibrary.UserContext;
 using EnsureThat;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
 {
@@ -10,6 +10,10 @@ namespace Consensus.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IJwtIssuer _jwtIssuer;
+
+        private readonly IRegistrationFacade _registrationFacade;
+
         public AccountController(
             IRegistrationFacade registrationFacade,
             IJwtIssuer jwtIssuer)
@@ -43,10 +47,6 @@ namespace Consensus.Controllers
             var response = new LoginResponseModel(_jwtIssuer.IssueJwt(Claims.Roles.User, userIdentifier.Identifier.Id));
 
             return Ok(response);
-
         }
-
-        private readonly IRegistrationFacade _registrationFacade;
-        private readonly IJwtIssuer _jwtIssuer;
     }
 }

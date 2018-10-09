@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consensus", "Consensus\Consensus.csproj", "{F23CCBF5-61BB-4DA5-BD24-15EE195493C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsensusLibrary", "ConsensusLibrary\ConsensusLibrary.csproj", "{BB473377-C841-4BFB-9A21-2991255AAF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsensusLibrary", "ConsensusLibrary\ConsensusLibrary.csproj", "{BB473377-C841-4BFB-9A21-2991255AAF8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

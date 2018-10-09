@@ -7,19 +7,11 @@ namespace ConsensusLibrary.DebateContext
 {
     public class Debate
     {
-        public Identifier Identifier { get; private set; }
-        public DateTimeOffset StartDateTime { get; private set; }
-        public DateTimeOffset EndDateTime { get; private set; }
-        public string Title { get; private set; }
-        public DebateCategory DebateCategory { get; private set; }
-        public IEnumerable<DebateMember> Members { get { return _members; } }
-        private List<DebateMember> _members { get; set; }
-
         public Debate(
             DateTimeOffset startDateTime,
             DateTimeOffset endDateTime,
             string title,
-            Identifier inviterIdentifier, 
+            Identifier inviterIdentifier,
             Identifier invitedIdentifier,
             DebateCategory debateCategory)
         {
@@ -35,11 +27,19 @@ namespace ConsensusLibrary.DebateContext
             Title = title;
             DebateCategory = debateCategory;
 
-            _members = new List<DebateMember>()
+            _members = new List<DebateMember>
             {
                 new DebateMember(MemberRole.Opponent, inviterIdentifier, string.Empty),
                 new DebateMember(MemberRole.Opponent, invitedIdentifier, string.Empty)
             };
         }
+
+        public Identifier Identifier { get; }
+        public DateTimeOffset StartDateTime { get; }
+        public DateTimeOffset EndDateTime { get; }
+        public string Title { get; }
+        public DebateCategory DebateCategory { get; }
+        public IEnumerable<DebateMember> Members => _members;
+        private List<DebateMember> _members { get; }
     }
 }

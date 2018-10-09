@@ -1,14 +1,18 @@
-﻿using ConsensusLibrary.CryptoContext;
-using EnsureThat;
-using System;
-using ConsensusLibrary.UserContext.Exceptions;
+﻿using System;
+using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.Tools;
+using ConsensusLibrary.UserContext.Exceptions;
 using ConsensusLibrary.UserContext.Views;
+using EnsureThat;
 
 namespace ConsensusLibrary.UserContext
 {
     public class RegistrationFacade : IRegistrationFacade
     {
+        private readonly ICryptoService _cryptoService;
+
+        private readonly IUserRepository _userRepository;
+
         public RegistrationFacade(
             IUserRepository userRepository,
             ICryptoService cryptoService)
@@ -19,8 +23,10 @@ namespace ConsensusLibrary.UserContext
 
         public CheckUserExistenceView CheckUserExistence(string email, string password)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email), opt => opt.WithException(new ArgumentNullException()));
-            Ensure.String.IsNotNullOrWhiteSpace(password, nameof(password), opt => opt.WithException(new ArgumentNullException()));
+            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email),
+                opt => opt.WithException(new ArgumentNullException()));
+            Ensure.String.IsNotNullOrWhiteSpace(password, nameof(password),
+                opt => opt.WithException(new ArgumentNullException()));
 
             email = email.ToLower().Replace(" ", "");
 
@@ -34,15 +40,19 @@ namespace ConsensusLibrary.UserContext
 
         public Identifier RegisterUser(string email, string nickName, string password)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email), opt => opt.WithException(new ArgumentNullException()));
-            Ensure.String.IsNotNullOrWhiteSpace(nickName, nameof(email), opt => opt.WithException(new ArgumentNullException()));
-            Ensure.String.IsNotNullOrWhiteSpace(password, nameof(email), opt => opt.WithException(new ArgumentNullException()));
+            Ensure.String.IsNotNullOrWhiteSpace(email, nameof(email),
+                opt => opt.WithException(new ArgumentNullException()));
+            Ensure.String.IsNotNullOrWhiteSpace(nickName, nameof(email),
+                opt => opt.WithException(new ArgumentNullException()));
+            Ensure.String.IsNotNullOrWhiteSpace(password, nameof(email),
+                opt => opt.WithException(new ArgumentNullException()));
 
             email = email.ToLower().Replace(" ", "");
             nickName = nickName.Replace(" ", "");
 
             var possibleClone = _userRepository.TryGetUserByEmailOrNickName(email, nickName);
-            Ensure.Bool.IsTrue(possibleClone == null, nameof(possibleClone), opt => opt.WithException(new UserAlreadyExistsException()));
+            Ensure.Bool.IsTrue(possibleClone == null, nameof(possibleClone),
+                opt => opt.WithException(new UserAlreadyExistsException()));
 
             var newUser = new User(email, nickName, _cryptoService.CalculateHash(password));
 
@@ -50,9 +60,5 @@ namespace ConsensusLibrary.UserContext
 
             return newUser.Identifier;
         }
-
-        private readonly IUserRepository _userRepository;
-        private readonly ICryptoService _cryptoService;
-
     }
 }

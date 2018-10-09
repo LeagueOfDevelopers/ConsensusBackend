@@ -5,7 +5,7 @@ namespace ConsensusLibrary.DebateContext.Exceptions
 {
     public class DebateNotFoundException : Exception
     {
-        public DebateNotFoundException(Identifier identifier) : base($"Debate with id {identifier.ToString()} not found")
+        public DebateNotFoundException(Identifier identifier) : base($"Debate with id {identifier} not found")
         {
         }
     }

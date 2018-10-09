@@ -1,21 +1,10 @@
-﻿using ConsensusLibrary.Tools;
-using System;
+﻿using System;
+using ConsensusLibrary.Tools;
 
 namespace ConsensusLibrary.DebateContext.Views
 {
     public class DebateView
     {
-        public Identifier Identifier { get; }
-        public string LeftFighterNickName { get; }
-        public Identifier LeftFighterId { get; }
-        public string RightFighterNickName { get; }
-        public Identifier RightFighterId { get; }
-        public DateTimeOffset StartDateTime { get; }
-        public DateTimeOffset EndDateTime { get; }
-        public int ViewerCount { get; }
-        public string Title { get; }
-        public DebateCategory Category { get; }
-
         public DebateView(
             Identifier identifier,
             string leftFighterNickName,
@@ -39,5 +28,16 @@ namespace ConsensusLibrary.DebateContext.Views
             Title = title;
             Category = category;
         }
+
+        public Identifier Identifier { get; }
+        public string LeftFighterNickName { get; }
+        public Identifier LeftFighterId { get; }
+        public string RightFighterNickName { get; }
+        public Identifier RightFighterId { get; }
+        public DateTimeOffset StartDateTime { get; }
+        public DateTimeOffset EndDateTime { get; }
+        public int ViewerCount { get; }
+        public string Title { get; }
+        public DebateCategory Category { get; }
     }
 }

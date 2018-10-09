@@ -4,10 +4,6 @@ namespace ConsensusLibrary.UserContext
 {
     public class Credentials
     {
-        public string PasswordHash { get; }
-        public string NickName { get; }
-        public string Email { get; }
-
         public Credentials(
             string passwordHash,
             string nickName,
@@ -17,5 +13,9 @@ namespace ConsensusLibrary.UserContext
             NickName = Ensure.String.IsNotNullOrEmpty(nickName);
             Email = Ensure.String.IsNotNullOrWhiteSpace(email);
         }
+
+        public string PasswordHash { get; }
+        public string NickName { get; }
+        public string Email { get; }
     }
 }

@@ -4,10 +4,6 @@ namespace ConsensusLibrary.DebateContext
 {
     public class DebateMember
     {
-        public MemberRole MemberRole { get; set; }
-        public Identifier UserIdentifier{ get; set; }
-        public string TraslationLink { get; set; }
-
         public DebateMember(
             MemberRole memberRole,
             Identifier userIdentifier,
@@ -17,5 +13,9 @@ namespace ConsensusLibrary.DebateContext
             UserIdentifier = userIdentifier;
             TraslationLink = traslationLink;
         }
+
+        public MemberRole MemberRole { get; set; }
+        public Identifier UserIdentifier { get; set; }
+        public string TraslationLink { get; set; }
     }
 }

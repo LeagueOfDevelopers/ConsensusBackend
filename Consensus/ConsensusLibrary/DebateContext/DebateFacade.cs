@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Linq;
 using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
 using ConsensusLibrary.UserContext;
 using EnsureThat;
-using System.Linq;
 
 namespace ConsensusLibrary.DebateContext
 {
     public class DebateFacade : IDebateFacade
     {
+        private readonly IDebateRepository _debateRepository;
+
+        private readonly IUserRepository _userRepository;
+
         public DebateFacade(
             IUserRepository userRepository,
             IDebateRepository debateRepository)
@@ -46,14 +50,11 @@ namespace ConsensusLibrary.DebateContext
             var rightOpponent = _userRepository.GetUserById(opponents[1].UserIdentifier);
 
             var result = new DebateView(debate.Identifier, leftOpponent.Credentials.NickName, leftOpponent.Identifier,
-                rightOpponent.Credentials.NickName, rightOpponent.Identifier, debate.StartDateTime, debate.EndDateTime, viewers.Count,
+                rightOpponent.Credentials.NickName, rightOpponent.Identifier, debate.StartDateTime, debate.EndDateTime,
+                viewers.Count,
                 debate.Title, debate.DebateCategory);
 
             return result;
         }
-
-        private readonly IUserRepository _userRepository;
-        private readonly IDebateRepository _debateRepository;
-
     }
 }

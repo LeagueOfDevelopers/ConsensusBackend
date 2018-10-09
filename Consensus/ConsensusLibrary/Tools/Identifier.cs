@@ -5,8 +5,6 @@ namespace ConsensusLibrary.Tools
 {
     public class Identifier
     {
-        public Guid Id { get; }
-
         internal Identifier()
         {
             Id = Guid.NewGuid();
@@ -16,6 +14,8 @@ namespace ConsensusLibrary.Tools
         {
             Id = Ensure.Guid.IsNotEmpty(id);
         }
+
+        public Guid Id { get; }
 
         public override string ToString()
         {

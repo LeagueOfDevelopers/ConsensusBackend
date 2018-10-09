@@ -1,6 +1,6 @@
-﻿using ConsensusLibrary.Tools;
+﻿using System;
 using ConsensusLibrary.DebateContext.Views;
-using System;
+using ConsensusLibrary.Tools;
 
 namespace ConsensusLibrary.DebateContext
 {
@@ -8,6 +8,7 @@ namespace ConsensusLibrary.DebateContext
     {
         Identifier CreateDebate(DateTimeOffset startDateTime, DateTimeOffset endDateTime,
             string title, Identifier leftOpponent, Identifier rightOpponent, DebateCategory debateCategory);
+
         DebateView GetDebate(Identifier identifier);
     }
 }

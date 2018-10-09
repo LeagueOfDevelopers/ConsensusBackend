@@ -6,18 +6,18 @@ using System.Text;
 using Consensus.Filters;
 using Consensus.Models;
 using Consensus.Security;
+using ConsensusLibrary.CryptoContext;
+using ConsensusLibrary.DebateContext;
+using ConsensusLibrary.UserContext;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
-using ConsensusLibrary.UserContext;
-using ConsensusLibrary.DebateContext;
-using ConsensusLibrary.CryptoContext;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Consensus
 {
@@ -47,7 +47,7 @@ namespace Consensus
             ConfigureSecurity(services);
 
             ServicePointManager.ServerCertificateValidationCallback +=
-            (sender, certificate, chain, sslPolicyErrors) => true;
+                (sender, certificate, chain, sslPolicyErrors) => true;
 
             services.AddSwaggerGen(options =>
             {
@@ -72,7 +72,7 @@ namespace Consensus
                 options.DescribeAllEnumsAsStrings();
             });
 
-            var optionModel = new OptionModel()
+            var optionModel = new OptionModel
             {
                 Secret = Configuration.GetValue<string>("Secret"),
                 OpenviduUrl = Configuration.GetValue<string>("OpenviduUrl")
@@ -80,11 +80,8 @@ namespace Consensus
 
             services.AddSingleton(optionModel);
 
-            services.AddMvc(o => 
-            {
-                o.Filters.Add(new ExceptionFilter());
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(o => { o.Filters.Add(new ExceptionFilter()); })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddCors(options =>
             {
@@ -96,10 +93,7 @@ namespace Consensus
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseCors("AllowAnyOrigin");
 

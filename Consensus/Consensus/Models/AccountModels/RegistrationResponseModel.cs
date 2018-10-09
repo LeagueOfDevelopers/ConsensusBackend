@@ -4,19 +4,19 @@ using System.ComponentModel.DataAnnotations;
 namespace Consensus.Models.AccountModels
 {
     /// <summary>
-    /// Модель, возвращаемая при регистрации пользователя
+    ///     Модель, возвращаемая при регистрации пользователя
     /// </summary>
     public class RegistrationResponseModel
     {
-        /// <summary>
-        /// Id нового пользователя
-        /// </summary>
-        [Required]
-        public Guid Id { get; }
-
         public RegistrationResponseModel(Guid id)
         {
             Id = id;
         }
+
+        /// <summary>
+        ///     Id нового пользователя
+        /// </summary>
+        [Required]
+        public Guid Id { get; }
     }
 }

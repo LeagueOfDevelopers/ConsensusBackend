@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Consensus.Models.SpeakersModels;
+﻿using Consensus.Models.SpeakersModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
 {
@@ -11,12 +7,8 @@ namespace Consensus.Controllers
     [ApiController]
     public class SpeakersController : ControllerBase
     {
-        public SpeakersController()
-        {
-        }
-
         /// <summary>
-        /// Получить топ спикеров
+        ///     Получить топ спикеров
         /// </summary>
         [HttpGet]
         [Route("top")]

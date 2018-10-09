@@ -5,10 +5,6 @@ namespace ConsensusLibrary.UserContext
 {
     public class User
     {
-        public Credentials Credentials { get; private set; }
-        public Identifier Identifier { get; private set; }
-        public UserProfile UserProfile { get; private set; }
-
         public User(string email, string nickName, string passwordHash)
         {
             Ensure.String.IsNotNullOrWhiteSpace(email);
@@ -18,5 +14,9 @@ namespace ConsensusLibrary.UserContext
             Identifier = new Identifier();
             Credentials = new Credentials(passwordHash, nickName, email);
         }
+
+        public Credentials Credentials { get; }
+        public Identifier Identifier { get; }
+        public UserProfile UserProfile { get; private set; }
     }
 }

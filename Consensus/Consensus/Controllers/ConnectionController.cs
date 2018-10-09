@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Consensus.Models;
+﻿using Consensus.Models;
 using Consensus.Models.ConnectionModels;
 using EnsureThat;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
@@ -16,23 +11,25 @@ namespace Consensus.Controllers
     [ApiController]
     public class ConnectionController : ControllerBase
     {
+        private readonly OptionModel _optionModel;
+
         public ConnectionController(OptionModel optionModel)
         {
             _optionModel = Ensure.Any.IsNotNull(optionModel);
         }
 
         /// <summary>
-        /// Создает комнату
+        ///     Создает комнату
         /// </summary>
         [HttpPost]
         [Route("session")]
         [ProducesResponseType(typeof(CreateSessionResponseModel), 200)]
         public IActionResult CreateSession()
         {
-            string path = "/api/sessions";
+            var path = "/api/sessions";
             var request = new RestRequest(Method.POST);
 
-            request.AddHeader("Authorization", "Basic " +_optionModel.Secret);
+            request.AddHeader("Authorization", "Basic " + _optionModel.Secret);
 
             var response = JsonConvert.DeserializeObject<CreateSessionResponseModel>(ExecuteRequest(path, request));
 
@@ -40,7 +37,7 @@ namespace Consensus.Controllers
         }
 
         /// <summary>
-        /// Получить все активные сессии
+        ///     Получить все активные сессии
         /// </summary>
         [HttpGet]
         [Route("session")]
@@ -51,7 +48,7 @@ namespace Consensus.Controllers
         }
 
         /// <summary>
-        /// Получить сессию
+        ///     Получить сессию
         /// </summary>
         [HttpGet]
         [Route("session/{sessionId}")]
@@ -61,7 +58,7 @@ namespace Consensus.Controllers
         }
 
         /// <summary>
-        /// Закрыть сессию
+        ///     Закрыть сессию
         /// </summary>
         [HttpDelete]
         [Route("session/{sessionId}")]
@@ -78,7 +75,5 @@ namespace Consensus.Controllers
 
             return response.Content;
         }
-
-        private readonly OptionModel _optionModel;
     }
 }

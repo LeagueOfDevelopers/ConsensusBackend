@@ -1,10 +1,10 @@
-﻿using Consensus.Models.DebateModels;
+﻿using System;
+using Consensus.Models.DebateModels;
 using ConsensusLibrary.DebateContext;
-using EnsureThat;
-using Microsoft.AspNetCore.Mvc;
 using ConsensusLibrary.Tools;
-using System;
+using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
 {
@@ -12,13 +12,15 @@ namespace Consensus.Controllers
     [ApiController]
     public class DebateController : ControllerBase
     {
+        private readonly IDebateFacade _debateFacade;
+
         public DebateController(IDebateFacade debateFacade)
         {
             _debateFacade = Ensure.Any.IsNotNull(debateFacade);
         }
 
         /// <summary>
-        /// Добавляет дебаты
+        ///     Добавляет дебаты
         /// </summary>
         [Authorize]
         [HttpPost]
@@ -26,16 +28,17 @@ namespace Consensus.Controllers
         [ProducesResponseType(401)]
         public IActionResult AddDebate([FromBody] AddDebateRequestModel model)
         {
-            var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.EndDateTime, model.Title, new Identifier(model.InviterOpponent),
+            var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.EndDateTime, model.Title,
+                new Identifier(model.InviterOpponent),
                 new Identifier(model.InvitedOpponent), model.DebateCategory);
 
             var result = new AddDebateResponseModel(newDebateIdentifier.Id);
 
             return Ok(result);
         }
-        
+
         /// <summary>
-        /// Получить информацию о дебатах по Id
+        ///     Получить информацию о дебатах по Id
         /// </summary>
         /// <param name="debateId">Id дебатов</param>
         [HttpGet]
@@ -45,15 +48,17 @@ namespace Consensus.Controllers
         {
             var responseView = _debateFacade.GetDebate(new Identifier(debateId));
 
-            var result = new GetDebateResponseModel(responseView.Identifier.Id, responseView.LeftFighterNickName, responseView.LeftFighterId.Id,
-                responseView.RightFighterNickName, responseView.RightFighterId.Id, responseView.StartDateTime, responseView.EndDateTime,
+            var result = new GetDebateResponseModel(responseView.Identifier.Id, responseView.LeftFighterNickName,
+                responseView.LeftFighterId.Id,
+                responseView.RightFighterNickName, responseView.RightFighterId.Id, responseView.StartDateTime,
+                responseView.EndDateTime,
                 responseView.ViewerCount, responseView.Title, responseView.Category);
 
             return Ok(result);
         }
 
         /// <summary>
-        /// Получить дебаты в эфире
+        ///     Получить дебаты в эфире
         /// </summary>
         [HttpGet]
         [Route("live")]
@@ -64,7 +69,7 @@ namespace Consensus.Controllers
         }
 
         /// <summary>
-        /// Получить прошедшие дебаты
+        ///     Получить прошедшие дебаты
         /// </summary>
         [HttpGet]
         [Route("past")]
@@ -73,7 +78,5 @@ namespace Consensus.Controllers
         {
             return Ok();
         }
-
-        private readonly IDebateFacade _debateFacade;
     }
 }

@@ -1,17 +1,18 @@
-﻿using ConsensusLibrary.Tools;
-using System.Collections.Generic;
-using EnsureThat;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ConsensusLibrary.Tools;
 using ConsensusLibrary.UserContext.Exceptions;
+using EnsureThat;
 
 namespace ConsensusLibrary.UserContext
 {
     public class InMemoryUserRepository : IUserRepository
     {
+        private readonly List<User> _users;
+
         public InMemoryUserRepository()
         {
             _users = new List<User>();
-
         }
 
         public void AddUser(User user)
@@ -23,7 +24,7 @@ namespace ConsensusLibrary.UserContext
         public User GetUserByCredentials(Credentials credentials)
         {
             var result = _users.FirstOrDefault(u => u.Credentials.Email == credentials.Email
-                && u.Credentials.PasswordHash == credentials.PasswordHash);
+                                                    && u.Credentials.PasswordHash == credentials.PasswordHash);
 
             Ensure.Any.IsNotNull(result, nameof(result), opt => opt.WithException(new UserNotFoundException()));
 
@@ -41,7 +42,6 @@ namespace ConsensusLibrary.UserContext
 
         public void UpdateUser(User user)
         {
-
         }
 
         public User TryGetUserByEmail(string email)
@@ -61,11 +61,11 @@ namespace ConsensusLibrary.UserContext
             email = email.ToLower();
             nickName = nickName.ToLower();
 
-            var result = _users.FirstOrDefault(u => u.Credentials.Email.ToLower() == email || u.Credentials.NickName.ToLower() == nickName);
+            var result = _users.FirstOrDefault(u =>
+                u.Credentials.Email.ToLower() == email || u.Credentials.NickName.ToLower() == nickName);
 
-            return result; ;
+            return result;
+            ;
         }
-
-        private readonly List<User> _users;
     }
 }

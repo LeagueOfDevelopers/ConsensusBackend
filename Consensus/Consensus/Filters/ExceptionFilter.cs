@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using ConsensusLibrary.UserContext.Exceptions;
+﻿using ConsensusLibrary.UserContext.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Consensus.Filters
 {

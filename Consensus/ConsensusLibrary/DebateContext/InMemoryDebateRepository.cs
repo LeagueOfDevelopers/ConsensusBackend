@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.Tools;
 using EnsureThat;
-using ConsensusLibrary.DebateContext.Exceptions;
 
 namespace ConsensusLibrary.DebateContext
 {
     public class InMemoryDebateRepository : IDebateRepository
     {
+        private readonly List<Debate> _debates;
+
         public InMemoryDebateRepository()
         {
             _debates = new List<Debate>();
@@ -25,7 +27,8 @@ namespace ConsensusLibrary.DebateContext
             Ensure.Any.IsNotNull(identifier);
 
             var expectedDebate = _debates.FirstOrDefault(d => d.Identifier.Id == identifier.Id);
-            Ensure.Any.IsNotNull(expectedDebate, nameof(expectedDebate), opt => opt.WithException(new DebateNotFoundException(identifier)));
+            Ensure.Any.IsNotNull(expectedDebate, nameof(expectedDebate),
+                opt => opt.WithException(new DebateNotFoundException(identifier)));
 
             return expectedDebate;
         }
@@ -41,9 +44,6 @@ namespace ConsensusLibrary.DebateContext
 
         public void UpdateDebate(Debate newDebate)
         {
-            
         }
-
-        private readonly List<Debate> _debates;
     }
 }
