@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace Consensus.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PublishController : ControllerBase
     {
