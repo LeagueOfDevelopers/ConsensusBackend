@@ -12,7 +12,6 @@ namespace Consensus.Models.DebateModels
             string rightFighterNickName,
             Guid rightFighterId,
             DateTimeOffset startDateTime,
-            DateTimeOffset endDateTime,
             int viewerCount,
             string title,
             DebateCategory category)
@@ -23,7 +22,6 @@ namespace Consensus.Models.DebateModels
             RightFighterNickName = rightFighterNickName;
             RightFighterId = rightFighterId;
             StartDateTime = startDateTime;
-            EndDateTime = endDateTime;
             ViewerCount = viewerCount;
             Title = title;
             Category = category;
@@ -58,11 +56,6 @@ namespace Consensus.Models.DebateModels
         ///     Время начала дебатов
         /// </summary>
         public DateTimeOffset StartDateTime { get; }
-
-        /// <summary>
-        ///     Время окончания дебатов
-        /// </summary>
-        public DateTimeOffset EndDateTime { get; }
 
         /// <summary>
         ///     Количество зрителей в данный момент

@@ -36,9 +36,10 @@ namespace Consensus
             var userRepository = new InMemoryUserRepository();
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+            var debateSettings = new DebateSettings(Configuration.GetValue<int>("DebateMinutesDuration"));
 
             var debateRepository = new InMemoryDebateRepository();
-            var debateFacade = new DebateFacade(userRepository, debateRepository);
+            var debateFacade = new DebateFacade(userRepository, debateRepository, debateSettings);
 
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);

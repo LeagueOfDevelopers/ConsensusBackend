@@ -9,21 +9,18 @@ namespace ConsensusLibrary.DebateContext
     {
         public Debate(
             DateTimeOffset startDateTime,
-            DateTimeOffset endDateTime,
             string title,
             Identifier inviterIdentifier,
             Identifier invitedIdentifier,
             DebateCategory debateCategory)
         {
             Ensure.Any.IsNotDefault(startDateTime);
-            Ensure.Any.IsNotDefault(endDateTime);
             Ensure.String.IsNotNullOrWhiteSpace(title);
             Ensure.Any.IsNotNull(inviterIdentifier);
             Ensure.Any.IsNotNull(invitedIdentifier);
 
             Identifier = new Identifier();
             StartDateTime = startDateTime;
-            EndDateTime = endDateTime;
             Title = title;
             DebateCategory = debateCategory;
 
@@ -36,7 +33,6 @@ namespace ConsensusLibrary.DebateContext
 
         public Identifier Identifier { get; }
         public DateTimeOffset StartDateTime { get; }
-        public DateTimeOffset EndDateTime { get; }
         public string Title { get; }
         public DebateCategory DebateCategory { get; }
         public IEnumerable<DebateMember> Members => _members;

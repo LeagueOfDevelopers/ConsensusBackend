@@ -12,7 +12,6 @@ namespace ConsensusLibrary.DebateContext.Views
             string rightFighterNickName,
             Identifier rightFighterId,
             DateTimeOffset startDateTime,
-            DateTimeOffset endDateTime,
             int viewerCount,
             string title,
             DebateCategory category)
@@ -23,7 +22,6 @@ namespace ConsensusLibrary.DebateContext.Views
             RightFighterNickName = rightFighterNickName;
             RightFighterId = rightFighterId;
             StartDateTime = startDateTime;
-            EndDateTime = endDateTime;
             ViewerCount = viewerCount;
             Title = title;
             Category = category;
@@ -35,7 +33,6 @@ namespace ConsensusLibrary.DebateContext.Views
         public string RightFighterNickName { get; }
         public Identifier RightFighterId { get; }
         public DateTimeOffset StartDateTime { get; }
-        public DateTimeOffset EndDateTime { get; }
         public int ViewerCount { get; }
         public string Title { get; }
         public DebateCategory Category { get; }

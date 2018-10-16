@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.Tools;
@@ -20,6 +21,12 @@ namespace ConsensusLibrary.DebateContext
             Ensure.Any.IsNotNull(newDebate);
 
             _debates.Add(newDebate);
+        }
+
+        public IEnumerable<Debate> GetActualDebatesForInterval(int minutesLater)
+        {
+            Ensure.Any.IsNotDefault(minutesLater);
+            return _debates.Where(d => d.StartDateTime > DateTimeOffset.UtcNow && d.StartDateTime.AddMinutes(minutesLater) < DateTimeOffset.UtcNow);
         }
 
         public Debate GetDebate(Identifier identifier)

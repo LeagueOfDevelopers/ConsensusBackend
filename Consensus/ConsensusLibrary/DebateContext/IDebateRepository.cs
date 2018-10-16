@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ConsensusLibrary.Tools;
 
 namespace ConsensusLibrary.DebateContext
@@ -8,6 +9,7 @@ namespace ConsensusLibrary.DebateContext
         void AddDebate(Debate newDebate);
         Debate GetDebate(Identifier identifier);
         IEnumerable<Debate> GetDebatesForUser(Identifier identifier);
+        IEnumerable<Debate> GetActualDebatesForInterval(int minutesLater);
         void UpdateDebate(Debate newDebate);
     }
 }

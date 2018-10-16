@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ConsensusLibrary.DebateContext;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Consensus.Models.DebateModels
 {
@@ -10,13 +11,13 @@ namespace Consensus.Models.DebateModels
     public class GetLiveDebatesResponseItemModel
     {
         public GetLiveDebatesResponseItemModel(
-            int id,
+            Guid id,
             string title,
-            int firstDebaterId,
-            int secondDebaterId,
+            Guid firstDebaterId,
+            Guid secondDebaterId,
             string firstDebaterName,
             string secondDebaterName,
-            string spectatorsCount,
+            int spectatorsCount,
             DebateCategory theme,
             IFormFile thumbnail)
         {
@@ -35,7 +36,7 @@ namespace Consensus.Models.DebateModels
         ///     Уникальный идентификатор
         /// </summary>
         [Required]
-        public int Id { get; }
+        public Guid Id { get; }
 
         /// <summary>
         ///     Заголовок дебата
@@ -47,13 +48,13 @@ namespace Consensus.Models.DebateModels
         ///     Уникальный идентификатор первого участника дебатов
         /// </summary>
         [Required]
-        public int FirstDebaterId { get; }
+        public Guid FirstDebaterId { get; }
 
         /// <summary>
         ///     Уникальный идентификатор второго участника дебатов
         /// </summary>
         [Required]
-        public int SecondDebaterId { get; }
+        public Guid SecondDebaterId { get; }
 
         /// <summary>
         ///     Имя первого участника дебатов
@@ -71,7 +72,7 @@ namespace Consensus.Models.DebateModels
         ///     Количество зрителей
         /// </summary>
         [Required]
-        public string SpectatorsCount { get; }
+        public int SpectatorsCount { get; }
 
         /// <summary>
         ///     Тема дебатов

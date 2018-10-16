@@ -16,12 +16,6 @@ namespace Consensus.Models.DebateModels
         public DateTimeOffset StartDateTime { get; set; }
 
         /// <summary>
-        ///     Время конца дебатов
-        /// </summary>
-        [Required]
-        public DateTimeOffset EndDateTime { get; set; }
-
-        /// <summary>
         ///     Название дебатов
         /// </summary>
         [Required]

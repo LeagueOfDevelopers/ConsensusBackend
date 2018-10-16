@@ -5,6 +5,8 @@ using ConsensusLibrary.Tools;
 using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Consensus.Controllers
 {
@@ -28,7 +30,7 @@ namespace Consensus.Controllers
         [ProducesResponseType(401)]
         public IActionResult AddDebate([FromBody] AddDebateRequestModel model)
         {
-            var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.EndDateTime, model.Title,
+            var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.Title,
                 new Identifier(model.InviterOpponent),
                 new Identifier(model.InvitedOpponent), model.DebateCategory);
 
@@ -51,7 +53,6 @@ namespace Consensus.Controllers
             var result = new GetDebateResponseModel(responseView.Identifier.Id, responseView.LeftFighterNickName,
                 responseView.LeftFighterId.Id,
                 responseView.RightFighterNickName, responseView.RightFighterId.Id, responseView.StartDateTime,
-                responseView.EndDateTime,
                 responseView.ViewerCount, responseView.Title, responseView.Category);
 
             return Ok(result);
@@ -65,7 +66,14 @@ namespace Consensus.Controllers
         [ProducesResponseType(typeof(GetLiveDebatesResponseModel), 200)]
         public IActionResult GetLiveDebates()
         {
-            return Ok();
+            var liveDebates = _debateFacade.GetLiveDebates();
+            var debateItems = new List<GetLiveDebatesResponseItemModel>();
+            liveDebates.ToList().ForEach(d => new GetLiveDebatesResponseItemModel(d.Id.Id,
+                d.Title, d.FirstDebaterId.Id, d.SecondDebaterId.Id, d.FirstDebaterName, d.SecondDebaterName,
+                d.SpectatorsCount, d.Theme, d.Thumbnail));
+            var response = new GetLiveDebatesResponseModel(debateItems);
+
+            return Ok(response);
         }
 
         /// <summary>
