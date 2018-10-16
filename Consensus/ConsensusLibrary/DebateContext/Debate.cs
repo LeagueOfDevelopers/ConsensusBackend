@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.Tools;
 using EnsureThat;
 
@@ -36,6 +38,26 @@ namespace ConsensusLibrary.DebateContext
         public string Title { get; }
         public DebateCategory DebateCategory { get; }
         public IEnumerable<DebateMember> Members => _members;
+        public IEnumerable<VoteInfo> Votes => _votes;
         private List<DebateMember> _members { get; }
+        private List<VoteInfo> _votes { get; }
+
+        internal void MakeVote(Identifier fromUser, Identifier toUser)
+        {
+            Ensure.Any.IsNotNull(fromUser);
+            Ensure.Any.IsNotNull(toUser);
+            Ensure.Bool.IsTrue(DateTimeOffset.UtcNow > StartDateTime, nameof(StartDateTime),
+                opt => opt.WithException(new InvalidOperationException()));
+
+            var debaters = _members.Where(m => m.MemberRole == MemberRole.Opponent).ToList();
+
+            Ensure.Bool.IsTrue(toUser == debaters[0].UserIdentifier || toUser == debaters[1].UserIdentifier, nameof(toUser),
+                opt => opt.WithException(new InvalidOperationException()));
+
+            Ensure.Bool.IsFalse(_votes.Any(v => v.FromUser == fromUser), nameof(fromUser),
+                opt => opt.WithException(new AlreadyVotedException()));
+
+            _votes.Add(new VoteInfo(fromUser, toUser));
+        }
     }
 }
