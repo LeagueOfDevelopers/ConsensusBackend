@@ -89,7 +89,7 @@ namespace Consensus
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             });
         }
 
@@ -98,11 +98,11 @@ namespace Consensus
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
             app.UseSwagger();
 
             app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
-
-            app.UseCors("AllowAnyOrigin");
 
             app.UseMvc();
         }
