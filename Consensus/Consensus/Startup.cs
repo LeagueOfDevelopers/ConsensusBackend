@@ -41,11 +41,13 @@ namespace Consensus
             var debateRepository = new InMemoryDebateRepository();
             var debateFacade = new DebateFacade(userRepository, debateRepository, debateSettings);
             var debateVotingFacade = new DebateVotingFacade(debateRepository, userRepository);
+            var chatFacade = new ChatFacade(debateRepository, userRepository);
 
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
             services.AddSingleton<IDebateFacade>(debateFacade);
             services.AddSingleton<IDebateVotingFacade>(debateVotingFacade);
+            services.AddSingleton<IChatFacade>(chatFacade);
 
             ConfigureSecurity(services);
 

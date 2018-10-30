@@ -25,6 +25,7 @@ namespace ConsensusLibrary.DebateContext
             StartDateTime = startDateTime;
             Title = title;
             DebateCategory = debateCategory;
+            _messages = new List<Message>();
 
             _members = new List<DebateMember>
             {
@@ -39,8 +40,10 @@ namespace ConsensusLibrary.DebateContext
         public DebateCategory DebateCategory { get; }
         public IEnumerable<DebateMember> Members => _members;
         public IEnumerable<VoteInfo> Votes => _votes;
+        public IEnumerable<Message> Messages => _messages;
         private List<DebateMember> _members { get; }
         private List<VoteInfo> _votes { get; }
+        private List<Message> _messages { get; }
 
         internal void MakeVote(Identifier fromUser, Identifier toUser)
         {
@@ -58,6 +61,12 @@ namespace ConsensusLibrary.DebateContext
                 opt => opt.WithException(new AlreadyVotedException()));
 
             _votes.Add(new VoteInfo(fromUser, toUser));
+        }
+
+        internal void AddMessage(Message message)
+        {
+            Ensure.Any.IsNotNull(message);
+            _messages.Add(message);
         }
     }
 }
