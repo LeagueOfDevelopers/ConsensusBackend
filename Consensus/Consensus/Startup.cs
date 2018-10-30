@@ -98,12 +98,13 @@ namespace Consensus
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
+
             app.UseCors("AllowAnyOrigin");
 
             app.UseMvc();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
         }
 
         private void ConfigureSecurity(IServiceCollection services)
