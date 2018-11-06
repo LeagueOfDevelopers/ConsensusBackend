@@ -1,0 +1,355 @@
+{
+	"info": {
+		"name": "Consensus",
+		"_postman_id": "53baa948-c0dd-058c-d88e-79ddcd6e309b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"userId1\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nickName\": \"{{userName1}}\",\r\n  \"email\": \"{{userEmail1}}\",\r\n  \"password\": \"{{userPassword1}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/account/registration/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"account",
+						"registration",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Login User 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"userToken1\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{userEmail1}}\",\r\n  \"password\": \"{{userPassword1}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/account/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"account",
+						"auth"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"userId2\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nickName\": \"{{userName2}}\",\r\n  \"email\": \"{{userEmail2}}\",\r\n  \"password\": \"{{userPassword2}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/account/registration/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"account",
+						"registration",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Login User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"userToken2\", jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{userEmail2}}\",\r\n  \"password\": \"{{userPassword2}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/account/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"account",
+						"auth"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Debate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"debateId\", jsonData.debateId);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDateTime\": \"2019-11-06T14:35:39.550Z\",\r\n  \"title\": \"string\",\r\n  \"invitedOpponent\": \"{{userId2}}\",\r\n  \"debateCategory\": \"Politics\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/debate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"debate"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Debate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"debateId\", jsonData.debateId);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startDateTime\": \"2019-11-06T14:35:39.550Z\",\r\n  \"title\": \"string\",\r\n  \"invitedOpponent\": \"{{userId2}}\",\r\n  \"debateCategory\": \"Politics\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/debate/{{debateId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"debate",
+						"{{debateId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"test123\",\r\n  \"debateId\": \"{{debateId}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/chat/message/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"chat",
+						"message",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"test123\",\r\n  \"debateId\": \"{{debateId}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/chat/message/{{debateId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"chat",
+						"message",
+						"{{debateId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
