@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using Consensus.Filters;
+using Consensus.Hubs;
 using Consensus.Models;
 using Consensus.Security;
 using ConsensusLibrary.CryptoContext;
@@ -93,6 +94,8 @@ namespace Consensus
                 options.AddPolicy("AllowAnyOrigin",
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             });
+
+            services.AddSignalRCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +108,11 @@ namespace Consensus
             app.UseSwagger();
 
             app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
 
             app.UseMvc();
         }
