@@ -6,6 +6,7 @@ using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Consensus.Extensions;
 using System.Linq;
 
 namespace Consensus.Controllers
@@ -30,8 +31,10 @@ namespace Consensus.Controllers
         [ProducesResponseType(401)]
         public IActionResult AddDebate([FromBody] AddDebateRequestModel model)
         {
+            var requestedId = Request.GetUserId();
+
             var newDebateIdentifier = _debateFacade.CreateDebate(model.StartDateTime, model.Title,
-                new Identifier(model.InviterOpponent),
+                new Identifier(requestedId),
                 new Identifier(model.InvitedOpponent), model.DebateCategory);
 
             var result = new AddDebateResponseModel(newDebateIdentifier.Id);

@@ -22,12 +22,6 @@ namespace Consensus.Models.DebateModels
         public string Title { get; set; }
 
         /// <summary>
-        ///     Id приглашающего юзера
-        /// </summary>
-        [Required]
-        public Guid InviterOpponent { get; set; }
-
-        /// <summary>
         ///     Id приглашенного юзера
         /// </summary>
         [Required]
