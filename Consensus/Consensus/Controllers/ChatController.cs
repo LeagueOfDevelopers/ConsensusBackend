@@ -41,13 +41,13 @@ namespace Consensus.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("message")]
+        [Route("message/{debateId}")]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         [ProducesResponseType(typeof(GetMessagesResponseModel), 200)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
-        public IActionResult GetMessages([FromBody] GetMessagesRequestModel model)
+        public IActionResult GetMessages([FromRoute] Guid debateId)
         {
-            var views = _chatFacade.GetMessages(new Identifier(model.DebateId));
+            var views = _chatFacade.GetMessages(new Identifier(debateId));
 
             var resultItems = new List<GetMessagesResponseItemModel>();
 
