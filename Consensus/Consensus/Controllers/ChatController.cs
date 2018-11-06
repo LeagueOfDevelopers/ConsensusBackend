@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ChatController : ControllerBase
     {
