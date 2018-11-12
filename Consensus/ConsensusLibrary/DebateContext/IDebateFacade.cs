@@ -12,5 +12,6 @@ namespace ConsensusLibrary.DebateContext
 
         DebateView GetDebate(Identifier identifier);
         IEnumerable<LiveDebateView> GetLiveDebates();
+        void SetReadyStatus(Identifier debateId, Identifier userId);
     }
 }

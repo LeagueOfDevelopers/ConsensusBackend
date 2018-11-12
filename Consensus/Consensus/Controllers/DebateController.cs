@@ -70,6 +70,21 @@ namespace Consensus.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("{debateId}/status")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult SetStatus([FromRoute] Guid debateId)
+        {
+            var userId = Request.GetUserId();
+
+            _debateFacade.SetReadyStatus(new Identifier(debateId), new Identifier(userId));
+
+            return Ok();
+        }
+
         /// <summary>
         ///     Получить дебаты в эфире
         /// </summary>

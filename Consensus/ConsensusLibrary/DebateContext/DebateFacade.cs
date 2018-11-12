@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
 using ConsensusLibrary.UserContext;
@@ -81,6 +82,17 @@ namespace ConsensusLibrary.DebateContext
             });
 
             return result;
+        }
+
+        public void SetReadyStatus(Identifier debateId, Identifier userId)
+        {
+            Ensure.Any.IsNotNull(debateId);
+            Ensure.Any.IsNotNull(userId);
+
+            var debate = _debateRepository.GetDebate(debateId);
+            var currentUser = _userRepository.GetUserById(userId);
+
+            debate.SetReadyStatus(userId);
         }
     }
 }
