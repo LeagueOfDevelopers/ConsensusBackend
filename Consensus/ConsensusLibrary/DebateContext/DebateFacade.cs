@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
@@ -93,6 +94,17 @@ namespace ConsensusLibrary.DebateContext
             var currentUser = _userRepository.GetUserById(userId);
 
             debate.SetReadyStatus(userId);
+
+            if (debate.State == DebateState.Approved)
+                Task.Delay(10000).ContinueWith(f => CloseTranslationThread()); // TODO config values
+
+            _debateRepository.UpdateDebate(debate);
+        }
+
+
+        private void CloseTranslationThread()
+        {
+            // do stuff
         }
     }
 }
