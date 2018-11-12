@@ -23,10 +23,9 @@ namespace ConsensusLibrary.DebateContext
             _debates.Add(newDebate);
         }
 
-        public IEnumerable<Debate> GetActualDebatesForInterval(int minutesLater)
+        public IEnumerable<Debate> GetActualDebates()
         {
-            Ensure.Any.IsNotDefault(minutesLater);
-            return _debates.Where(d => d.StartDateTime > DateTimeOffset.UtcNow && d.StartDateTime.AddMinutes(minutesLater) < DateTimeOffset.UtcNow);
+            return _debates.Where(d => d.StartDateTime > DateTimeOffset.UtcNow && d.EndDateTime < DateTimeOffset.UtcNow);
         }
 
         public Debate GetDebate(Identifier identifier)

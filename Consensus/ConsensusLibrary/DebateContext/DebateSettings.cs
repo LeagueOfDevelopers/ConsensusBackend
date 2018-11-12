@@ -1,12 +1,18 @@
-﻿namespace ConsensusLibrary.DebateContext
+﻿using System;
+
+namespace ConsensusLibrary.DebateContext
 {
     public class DebateSettings
     {
-        public int DebateMinutesDuration { get; }
+        public int RoundCount { get; }
+        public TimeSpan RoundLength { get; }
 
-        public DebateSettings(int debateMinutesDuration)
+        public DebateSettings(
+            int roundCount,
+            TimeSpan roundLength)
         {
-            DebateMinutesDuration = debateMinutesDuration;
+            RoundCount = roundCount;
+            RoundLength = roundLength;
         }
     }
 }

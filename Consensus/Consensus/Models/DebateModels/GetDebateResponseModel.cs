@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ConsensusLibrary.DebateContext;
 
 namespace Consensus.Models.DebateModels
@@ -6,61 +7,23 @@ namespace Consensus.Models.DebateModels
     public class GetDebateResponseModel
     {
         public GetDebateResponseModel(
-            Guid identifier,
-            string leftFighterNickName,
-            Guid leftFighterId,
-            string rightFighterNickName,
-            Guid rightFighterId,
-            DateTimeOffset startDateTime,
-            int viewerCount,
-            string title,
-            DebateCategory category)
+            DateTimeOffset startDateTime, 
+            string title, 
+            DebateCategory category, 
+            DebateState state,
+            IEnumerable<DebateMemberResponseModel> members)
         {
-            Identifier = identifier;
-            LeftFighterNickName = leftFighterNickName;
-            LeftFighterId = leftFighterId;
-            RightFighterNickName = rightFighterNickName;
-            RightFighterId = rightFighterId;
             StartDateTime = startDateTime;
-            ViewerCount = viewerCount;
             Title = title;
             Category = category;
+            State = state;
+            Members = members;
         }
-
-        /// <summary>
-        ///     Id дебатов
-        /// </summary>
-        public Guid Identifier { get; }
-
-        /// <summary>
-        ///     NickName первого оппонента
-        /// </summary>
-        public string LeftFighterNickName { get; }
-
-        /// <summary>
-        ///     Id первого оппонента
-        /// </summary>
-        public Guid LeftFighterId { get; }
-
-        /// <summary>
-        ///     NickName второго оппонента
-        /// </summary>
-        public string RightFighterNickName { get; }
-
-        /// <summary>
-        ///     Id второго оппонента
-        /// </summary>
-        public Guid RightFighterId { get; }
-
+        
         /// <summary>
         ///     Время начала дебатов
         /// </summary>
         public DateTimeOffset StartDateTime { get; }
-
-        /// <summary>
-        ///     Количество зрителей в данный момент
-        /// </summary>
-        public int ViewerCount { get; }
 
         /// <summary>
         ///     Название дебатов
@@ -71,5 +34,10 @@ namespace Consensus.Models.DebateModels
         ///     Категория дебатов
         /// </summary>
         public DebateCategory Category { get; }
+        /// <summary>
+        /// Состояние дебатов
+        /// </summary>
+        public DebateState State { get; }
+        public IEnumerable<DebateMemberResponseModel> Members { get; }
     }
 }

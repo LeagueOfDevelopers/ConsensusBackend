@@ -32,9 +32,10 @@ namespace ConsensusLibrary.DebateContext
             Ensure.Any.IsNotNull(invited);
 
             var inviterUser = _userRepository.GetUserById(inviter);
-            var InvitedUser = _userRepository.GetUserById(invited);
+            var invitedUser = _userRepository.GetUserById(invited);
 
-            var newDebates = new Debate(startDateTime, title, inviter, invited, debateCategory);
+            var newDebates = new Debate(startDateTime, title, inviter, invited,
+                debateCategory, _debateSettings.RoundCount, _debateSettings.RoundLength);
 
             _debateRepository.AddDebate(newDebates);
 
@@ -48,22 +49,25 @@ namespace ConsensusLibrary.DebateContext
             var debate = _debateRepository.GetDebate(identifier);
 
             var opponents = debate.Members.Where(m => m.MemberRole == MemberRole.Opponent).ToList();
-            var viewers = debate.Members.Where(m => m.MemberRole == MemberRole.Viewer).ToList();
 
-            var leftOpponent = _userRepository.GetUserById(opponents[0].UserIdentifier);
-            var rightOpponent = _userRepository.GetUserById(opponents[1].UserIdentifier);
+            var membersView = new List<DebateMemberView>();
 
-            var result = new DebateView(debate.Identifier, leftOpponent.Credentials.NickName, leftOpponent.Identifier,
-                rightOpponent.Credentials.NickName, rightOpponent.Identifier, debate.StartDateTime,
-                viewers.Count,
-                debate.Title, debate.DebateCategory);
+            opponents.ForEach(m =>
+            {
+                var currentUser = _userRepository.GetUserById(m.UserIdentifier);
+                membersView.Add(new DebateMemberView(currentUser.Credentials.NickName,
+                    m.UserIdentifier, m.Ready, m.TranslationLink));
+            });
+
+            var result = new DebateView(debate.Identifier, debate.StartDateTime,
+                debate.Title, debate.DebateCategory, debate.State, membersView);
 
             return result;
         }
 
         public IEnumerable<LiveDebateView> GetLiveDebates()
         {
-            var debates = _debateRepository.GetActualDebatesForInterval(_debateSettings.DebateMinutesDuration);
+            var debates = _debateRepository.GetActualDebates();
             var result = new List<LiveDebateView>();
             debates.ToList().ForEach(d => {
                 var opponents = d.Members.Where(m => m.MemberRole == MemberRole.Opponent).ToList();

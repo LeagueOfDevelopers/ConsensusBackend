@@ -9,7 +9,7 @@ namespace ConsensusLibrary.DebateContext
         void AddDebate(Debate newDebate);
         Debate GetDebate(Identifier identifier);
         IEnumerable<Debate> GetDebatesForUser(Identifier identifier);
-        IEnumerable<Debate> GetActualDebatesForInterval(int minutesLater);
+        IEnumerable<Debate> GetActualDebates();
         void UpdateDebate(Debate newDebate);
     }
 }

@@ -53,12 +53,20 @@ namespace Consensus.Controllers
         {
             var responseView = _debateFacade.GetDebate(new Identifier(debateId));
 
-            var result = new GetDebateResponseModel(responseView.Identifier.Id, responseView.LeftFighterNickName,
-                responseView.LeftFighterId.Id,
-                responseView.RightFighterNickName, responseView.RightFighterId.Id, responseView.StartDateTime,
-                responseView.ViewerCount, responseView.Title, responseView.Category);
+            var memberModels = new List<DebateMemberResponseModel>();
 
-            return Ok(result);
+            responseView.Members.ToList().ForEach(m =>
+            {
+                memberModels.Add(new DebateMemberResponseModel(m.NickName, m.Identifier.Id, m.Ready, m.TranslationLink));
+            });
+
+            var response = new GetDebateResponseModel(
+                responseView.StartDateTime,
+                responseView.Title,
+                responseView.Category,
+                responseView.State, memberModels);
+
+            return Ok(response);
         }
 
         /// <summary>

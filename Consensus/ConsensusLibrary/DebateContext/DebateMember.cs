@@ -7,15 +7,22 @@ namespace ConsensusLibrary.DebateContext
         public DebateMember(
             MemberRole memberRole,
             Identifier userIdentifier,
-            string traslationLink)
+            string translationLink)
         {
             MemberRole = memberRole;
             UserIdentifier = userIdentifier;
-            TraslationLink = traslationLink;
+            TranslationLink = translationLink;
+            Ready = false;
         }
 
-        public MemberRole MemberRole { get; set; }
-        public Identifier UserIdentifier { get; set; }
-        public string TraslationLink { get; set; }
+        internal void BecomeReady()
+        {
+            Ready = true;
+        }
+
+        public MemberRole MemberRole { get; }
+        public Identifier UserIdentifier { get; }
+        public string TranslationLink { get; }
+        public bool Ready { get; private set; }
     }
 }
