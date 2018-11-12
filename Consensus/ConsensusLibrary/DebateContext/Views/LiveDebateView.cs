@@ -5,25 +5,15 @@ namespace ConsensusLibrary.DebateContext.Views
 {
     public class LiveDebateView
     {
-        public Identifier Id { get; }
-        public string Title { get; }
-        public Identifier FirstDebaterId { get; }
-        public Identifier SecondDebaterId { get; }
-        public string FirstDebaterName { get; }
-        public string SecondDebaterName { get; }
-        public int SpectatorsCount { get; }
-        public DebateCategory Theme { get; }
-        public IFormFile Thumbnail { get; }
-
         public LiveDebateView(
             Identifier id,
             string title,
-            Identifier firstDebaterId, 
-            Identifier secondDebaterId, 
-            string firstDebaterName, 
-            string secondDebaterName, 
-            int spectatorsCount, 
-            DebateCategory theme, 
+            Identifier firstDebaterId,
+            Identifier secondDebaterId,
+            string firstDebaterName,
+            string secondDebaterName,
+            int spectatorsCount,
+            DebateCategory theme,
             IFormFile thumbnail)
         {
             Id = id;
@@ -36,5 +26,15 @@ namespace ConsensusLibrary.DebateContext.Views
             Theme = theme;
             Thumbnail = thumbnail;
         }
+
+        public Identifier Id { get; }
+        public string Title { get; }
+        public Identifier FirstDebaterId { get; }
+        public Identifier SecondDebaterId { get; }
+        public string FirstDebaterName { get; }
+        public string SecondDebaterName { get; }
+        public int SpectatorsCount { get; }
+        public DebateCategory Theme { get; }
+        public IFormFile Thumbnail { get; }
     }
 }

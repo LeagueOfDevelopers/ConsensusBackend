@@ -8,6 +8,9 @@ namespace ConsensusLibrary.DebateContext
 {
     public class DebateVotingFacade : IDebateVotingFacade
     {
+        private readonly IDebateRepository _debateRepository;
+        private readonly IUserRepository _userRepository;
+
         public DebateVotingFacade(
             IDebateRepository debateRepository,
             IUserRepository userRepository)
@@ -37,10 +40,8 @@ namespace ConsensusLibrary.DebateContext
             var rightOpponentVotes = currentDebate.Votes.ToList().Count(v => v.ToUser == rightOpponent.Identifier);
 
             return new DebateVotingView(leftOpponentVotes, leftOpponent.Credentials.NickName,
-                leftOpponent.Identifier.Id, rightOpponentVotes, rightOpponent.Credentials.NickName, rightOpponent.Identifier.Id);
+                leftOpponent.Identifier.Id, rightOpponentVotes, rightOpponent.Credentials.NickName,
+                rightOpponent.Identifier.Id);
         }
-
-        private readonly IDebateRepository _debateRepository;
-        private readonly IUserRepository _userRepository;
     }
 }

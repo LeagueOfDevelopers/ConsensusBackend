@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.UserContext;
 
@@ -54,7 +52,7 @@ namespace ConsensusLibrary.Tests.UserTests.ResultGenerator
             yield return new object[]
             {
                 null,
-                string.Empty,
+                string.Empty
             };
             yield return new object[]
             {

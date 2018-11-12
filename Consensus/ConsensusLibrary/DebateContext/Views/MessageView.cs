@@ -5,17 +5,11 @@ namespace ConsensusLibrary.DebateContext.Views
 {
     public class MessageView
     {
-        public Identifier MessageId { get; }
-        public Identifier UserId { get; }
-        public DateTimeOffset SentOn { get; }
-        public string Text { get; }
-        public string UserName { get; }
-
         public MessageView(
             Identifier messageId,
             Identifier userId,
             DateTimeOffset sentOn,
-            string text, 
+            string text,
             string userName)
         {
             MessageId = messageId;
@@ -24,5 +18,11 @@ namespace ConsensusLibrary.DebateContext.Views
             Text = text;
             UserName = userName;
         }
+
+        public Identifier MessageId { get; }
+        public Identifier UserId { get; }
+        public DateTimeOffset SentOn { get; }
+        public string Text { get; }
+        public string UserName { get; }
     }
 }

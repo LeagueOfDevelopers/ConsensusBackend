@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Consensus.Extensions;
 using Consensus.Models.DebateModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
 using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Consensus.Extensions;
-using System.Linq;
 
 namespace Consensus.Controllers
 {
@@ -57,7 +57,8 @@ namespace Consensus.Controllers
 
             responseView.Members.ToList().ForEach(m =>
             {
-                memberModels.Add(new DebateMemberResponseModel(m.NickName, m.Identifier.Id, m.Ready, m.TranslationLink));
+                memberModels.Add(new DebateMemberResponseModel(m.NickName, m.Identifier.Id, m.Ready,
+                    m.TranslationLink));
             });
 
             var response = new GetDebateResponseModel(

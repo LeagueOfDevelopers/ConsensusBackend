@@ -30,52 +30,15 @@ namespace ConsensusLibrary.Tests.UserTests
             Assert.Throws<ArgumentNullException>(() => registrationFacade.RegisterUser(email, nickName, password));
         }
 
-        [Fact]
-        public void RegisterUser_ExistingUserName_Throws()
+        [Theory]
+        [MemberData(nameof(RegistrationFacadeTestsGenerator.GetCheckUserExistenceNullParams),
+            MemberType = typeof(RegistrationFacadeTestsGenerator))]
+        public void CheckUserExistence_NullParams_Throws(string email, string password)
         {
-            //Arrange
             var userRepository = new InMemoryUserRepository();
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
-            var userName = "yaroslav";
-            var password = "123123123";
-            var email = "bus.yaroslav@gmail.com";
-            //Act
-            registrationFacade.RegisterUser(email, userName, password);
-            //Assert
-            Assert.Throws<UserAlreadyExistsException>(() => registrationFacade.RegisterUser("123@qwe.123", userName, password));
-        }
-
-        [Fact]
-        public void RegisterUser_ExistingEmail_Throws()
-        {
-            //Arrange
-            var userRepository = new InMemoryUserRepository();
-            var cryptoService = new CryptoServiceWithSalt();
-            var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
-            var userName = "yaroslav";
-            var password = "123123123";
-            var email = "bus.yaroslav@gmail.com";
-            //Act
-            registrationFacade.RegisterUser(email, userName, password);
-            //Assert
-            Assert.Throws<UserAlreadyExistsException>(() => registrationFacade.RegisterUser(email, "chokavo", password));
-        }
-
-        [Fact]
-        public void RegisterUser_ExistingEmailAndUserName_Throws()
-        {
-            //Arrange
-            var userRepository = new InMemoryUserRepository();
-            var cryptoService = new CryptoServiceWithSalt();
-            var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
-            var userName = "yaroslav";
-            var password = "123123123";
-            var email = "bus.yaroslav@gmail.com";
-            //Act
-            registrationFacade.RegisterUser(email, userName, password);
-            //Assert
-            Assert.Throws<UserAlreadyExistsException>(() => registrationFacade.RegisterUser(email, userName, password));
+            Assert.Throws<ArgumentNullException>(() => registrationFacade.CheckUserExistence(email, password));
         }
 
         [Fact]
@@ -110,15 +73,54 @@ namespace ConsensusLibrary.Tests.UserTests
             Assert.Null(result);
         }
 
-        [Theory]
-        [MemberData(nameof(RegistrationFacadeTestsGenerator.GetCheckUserExistenceNullParams),
-            MemberType = typeof(RegistrationFacadeTestsGenerator))]
-        public void CheckUserExistence_NullParams_Throws(string email, string password)
+        [Fact]
+        public void RegisterUser_ExistingEmail_Throws()
         {
+            //Arrange
             var userRepository = new InMemoryUserRepository();
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
-            Assert.Throws<ArgumentNullException>(() => registrationFacade.CheckUserExistence(email, password));
+            var userName = "yaroslav";
+            var password = "123123123";
+            var email = "bus.yaroslav@gmail.com";
+            //Act
+            registrationFacade.RegisterUser(email, userName, password);
+            //Assert
+            Assert.Throws<UserAlreadyExistsException>(() =>
+                registrationFacade.RegisterUser(email, "chokavo", password));
+        }
+
+        [Fact]
+        public void RegisterUser_ExistingEmailAndUserName_Throws()
+        {
+            //Arrange
+            var userRepository = new InMemoryUserRepository();
+            var cryptoService = new CryptoServiceWithSalt();
+            var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+            var userName = "yaroslav";
+            var password = "123123123";
+            var email = "bus.yaroslav@gmail.com";
+            //Act
+            registrationFacade.RegisterUser(email, userName, password);
+            //Assert
+            Assert.Throws<UserAlreadyExistsException>(() => registrationFacade.RegisterUser(email, userName, password));
+        }
+
+        [Fact]
+        public void RegisterUser_ExistingUserName_Throws()
+        {
+            //Arrange
+            var userRepository = new InMemoryUserRepository();
+            var cryptoService = new CryptoServiceWithSalt();
+            var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+            var userName = "yaroslav";
+            var password = "123123123";
+            var email = "bus.yaroslav@gmail.com";
+            //Act
+            registrationFacade.RegisterUser(email, userName, password);
+            //Assert
+            Assert.Throws<UserAlreadyExistsException>(() =>
+                registrationFacade.RegisterUser("123@qwe.123", userName, password));
         }
     }
 }

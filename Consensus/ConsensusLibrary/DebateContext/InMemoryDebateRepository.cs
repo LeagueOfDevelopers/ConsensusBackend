@@ -25,7 +25,8 @@ namespace ConsensusLibrary.DebateContext
 
         public IEnumerable<Debate> GetActualDebates()
         {
-            return _debates.Where(d => d.StartDateTime > DateTimeOffset.UtcNow && d.EndDateTime < DateTimeOffset.UtcNow);
+            return _debates.Where(d =>
+                d.StartDateTime > DateTimeOffset.UtcNow && d.EndDateTime < DateTimeOffset.UtcNow);
         }
 
         public Debate GetDebate(Identifier identifier)

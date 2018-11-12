@@ -7,11 +7,11 @@ namespace ConsensusLibrary.DebateContext.Views
     public class DebateView
     {
         public DebateView(
-            Identifier identifier, 
-            DateTimeOffset startDateTime, 
-            string title, 
-            DebateCategory category, 
-            DebateState state, 
+            Identifier identifier,
+            DateTimeOffset startDateTime,
+            string title,
+            DebateCategory category,
+            DebateState state,
             IEnumerable<DebateMemberView> members)
         {
             Identifier = identifier;

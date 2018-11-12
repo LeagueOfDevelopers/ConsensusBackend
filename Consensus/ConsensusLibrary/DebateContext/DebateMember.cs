@@ -15,14 +15,14 @@ namespace ConsensusLibrary.DebateContext
             Ready = false;
         }
 
-        internal void BecomeReady()
-        {
-            Ready = true;
-        }
-
         public MemberRole MemberRole { get; }
         public Identifier UserIdentifier { get; }
         public string TranslationLink { get; }
         public bool Ready { get; private set; }
+
+        internal void BecomeReady()
+        {
+            Ready = true;
+        }
     }
 }

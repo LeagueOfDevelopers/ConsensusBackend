@@ -4,11 +4,6 @@ namespace ConsensusLibrary.DebateContext.Views
 {
     public class DebateMemberView
     {
-        public string NickName { get; }
-        public Identifier Identifier { get; }
-        public bool Ready { get; }
-        public string TranslationLink { get; }
-
         public DebateMemberView(
             string nickName,
             Identifier identifier,
@@ -20,5 +15,10 @@ namespace ConsensusLibrary.DebateContext.Views
             Ready = ready;
             TranslationLink = translationLink;
         }
+
+        public string NickName { get; }
+        public Identifier Identifier { get; }
+        public bool Ready { get; }
+        public string TranslationLink { get; }
     }
 }

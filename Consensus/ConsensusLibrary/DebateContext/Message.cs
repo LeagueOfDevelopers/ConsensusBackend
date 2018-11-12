@@ -5,12 +5,6 @@ namespace ConsensusLibrary.DebateContext
 {
     public class Message
     {
-        public Identifier Id { get; }
-        public Identifier UserId { get; }
-        public Identifier DebateId { get; }
-        public string Text { get; }
-        public DateTimeOffset SentOn { get; }
-
         public Message(Identifier userId, Identifier debateId, string text)
         {
             Id = new Identifier();
@@ -20,9 +14,16 @@ namespace ConsensusLibrary.DebateContext
             SentOn = DateTimeOffset.UtcNow;
         }
 
-        internal Message(Identifier userId, Identifier debateId, string text, DateTimeOffset sentOn) : this(userId, debateId, text)
+        internal Message(Identifier userId, Identifier debateId, string text, DateTimeOffset sentOn) : this(userId,
+            debateId, text)
         {
             SentOn = sentOn;
         }
+
+        public Identifier Id { get; }
+        public Identifier UserId { get; }
+        public Identifier DebateId { get; }
+        public string Text { get; }
+        public DateTimeOffset SentOn { get; }
     }
 }

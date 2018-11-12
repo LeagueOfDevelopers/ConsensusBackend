@@ -50,7 +50,8 @@ namespace ConsensusLibrary.Tests.DebateTests
             var roundCount = 4;
             var roundLength = new TimeSpan(0, 0, 5, 0);
             //Act
-            var newDebates = new Debate(debateStartDate, title, inviterId, invitedId, debateCategory, roundCount, roundLength);
+            var newDebates = new Debate(debateStartDate, title, inviterId, invitedId, debateCategory, roundCount,
+                roundLength);
             newDebates.SetReadyStatus(inviterId);
             newDebates.SetReadyStatus(invitedId);
             //Assert

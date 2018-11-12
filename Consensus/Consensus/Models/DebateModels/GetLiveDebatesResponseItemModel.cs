@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using ConsensusLibrary.DebateContext;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace Consensus.Models.DebateModels
 {

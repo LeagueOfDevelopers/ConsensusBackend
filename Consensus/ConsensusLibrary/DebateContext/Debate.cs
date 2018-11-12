@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.Tools;
 using EnsureThat;
 
 [assembly: InternalsVisibleTo("ConsensusLibrary.Tests")]
+
 namespace ConsensusLibrary.DebateContext
 {
     public class Debate
     {
+        private readonly List<DebateMember> _members;
+        private readonly List<Message> _messages;
+        private readonly List<VoteInfo> _votes;
+
         public Debate(
             DateTimeOffset startDateTime,
             string title,
@@ -61,9 +65,6 @@ namespace ConsensusLibrary.DebateContext
         public IEnumerable<VoteInfo> Votes => _votes;
         public IEnumerable<Message> Messages => _messages;
         public IEnumerable<Round> Rounds { get; private set; }
-        private readonly List<DebateMember> _members; 
-        private readonly List<VoteInfo> _votes;
-        private readonly List<Message> _messages;
         public DebateState State { get; private set; }
         public int RoundCount { get; }
         public TimeSpan RoundLength { get; }
@@ -77,7 +78,8 @@ namespace ConsensusLibrary.DebateContext
 
             var debaters = _members.Where(m => m.MemberRole == MemberRole.Opponent).ToList();
 
-            Ensure.Bool.IsTrue(toUser == debaters[0].UserIdentifier || toUser == debaters[1].UserIdentifier, nameof(toUser),
+            Ensure.Bool.IsTrue(toUser == debaters[0].UserIdentifier || toUser == debaters[1].UserIdentifier,
+                nameof(toUser),
                 opt => opt.WithException(new InvalidOperationException()));
 
             Ensure.Bool.IsFalse(_votes.Any(v => v.FromUser == fromUser), nameof(fromUser),
@@ -105,7 +107,7 @@ namespace ConsensusLibrary.DebateContext
             }
 
             targetMember.BecomeReady();
-            
+
             TryToStartDebate();
         }
 
@@ -115,7 +117,8 @@ namespace ConsensusLibrary.DebateContext
             _messages.Add(message);
         }
 
-        private IEnumerable<Round> FillRounds(int roundCount, TimeSpan roundLength, DebateMember inviter, DebateMember invited)
+        private IEnumerable<Round> FillRounds(int roundCount, TimeSpan roundLength, DebateMember inviter,
+            DebateMember invited)
         {
             Ensure.Bool.IsTrue(State == DebateState.Waiting, nameof(State),
                 opt => opt.WithException(new InvalidOperationException()));

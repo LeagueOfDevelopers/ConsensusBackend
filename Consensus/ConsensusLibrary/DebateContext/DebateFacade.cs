@@ -69,7 +69,8 @@ namespace ConsensusLibrary.DebateContext
         {
             var debates = _debateRepository.GetActualDebates();
             var result = new List<LiveDebateView>();
-            debates.ToList().ForEach(d => {
+            debates.ToList().ForEach(d =>
+            {
                 var opponents = d.Members.Where(m => m.MemberRole == MemberRole.Opponent).ToList();
                 var viewers = d.Members.Where(m => m.MemberRole == MemberRole.Viewer).ToList();
                 var leftOpponent = _userRepository.GetUserById(opponents[0].UserIdentifier);

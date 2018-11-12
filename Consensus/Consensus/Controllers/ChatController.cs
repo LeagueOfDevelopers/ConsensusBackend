@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Consensus.Extensions;
 using Consensus.Models.ChatModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
 using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
@@ -17,6 +15,8 @@ namespace Consensus.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
+        private readonly IChatFacade _chatFacade;
+
         public ChatController(IChatFacade chatFacade)
         {
             _chatFacade = Ensure.Any.IsNotNull(chatFacade);
@@ -32,7 +32,8 @@ namespace Consensus.Controllers
         {
             var requestedId = Request.GetUserId();
 
-            var messageId = _chatFacade.SendMessage(new Identifier(requestedId), new Identifier(model.debateId), model.Text);
+            var messageId =
+                _chatFacade.SendMessage(new Identifier(requestedId), new Identifier(model.debateId), model.Text);
 
             var response = new SendMessageResponseModel(messageId.Id);
 
@@ -53,14 +54,13 @@ namespace Consensus.Controllers
 
             views.ToList().ForEach(v =>
             {
-                resultItems.Add(new GetMessagesResponseItemModel(v.MessageId.Id, v.UserId.Id, v.SentOn, v.Text, v.UserName));
+                resultItems.Add(new GetMessagesResponseItemModel(v.MessageId.Id, v.UserId.Id, v.SentOn, v.Text,
+                    v.UserName));
             });
 
             var result = new GetMessagesResponseModel(resultItems);
 
             return Ok(result);
         }
-
-        private readonly IChatFacade _chatFacade;
     }
 }

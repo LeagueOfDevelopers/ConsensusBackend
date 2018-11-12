@@ -1,8 +1,5 @@
 ﻿using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ConsensusLibrary.DebateContext
 {

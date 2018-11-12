@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Consensus.Extensions;
+﻿using Consensus.Extensions;
 using Consensus.Models.VotingModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
 using EnsureThat;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
@@ -17,6 +12,8 @@ namespace Consensus.Controllers
     [ApiController]
     public class VotingController : ControllerBase
     {
+        private readonly IDebateVotingFacade _debateVotingFacade;
+
         public VotingController(IDebateVotingFacade debateVotingFacade)
         {
             _debateVotingFacade = Ensure.Any.IsNotNull(debateVotingFacade);
@@ -30,7 +27,8 @@ namespace Consensus.Controllers
         public IActionResult Vote([FromRoute] VoteRequestModel model)
         {
             var requestedId = Request.GetUserId();
-            _debateVotingFacade.Vote(new Identifier(model.DebateId), new Identifier(requestedId), new Identifier(model.ToUser));
+            _debateVotingFacade.Vote(new Identifier(model.DebateId), new Identifier(requestedId),
+                new Identifier(model.ToUser));
             return Ok();
         }
 
@@ -41,12 +39,11 @@ namespace Consensus.Controllers
         {
             var result = _debateVotingFacade.GetVotingResults(new Identifier(model.DebateId));
 
-            var response = new GetVotingResultResponseModel(result.FirstDedaterVotesTotalCount, result.FirstDedaterNickName, result.FirstDedaterIdentifier,
+            var response = new GetVotingResultResponseModel(result.FirstDedaterVotesTotalCount,
+                result.FirstDedaterNickName, result.FirstDedaterIdentifier,
                 result.SecondDedaterVotesTotalCount, result.SecondDedaterNickName, result.SecondDedaterIdentifier);
 
             return Ok(response);
         }
-
-        private readonly IDebateVotingFacade _debateVotingFacade;
     }
 }

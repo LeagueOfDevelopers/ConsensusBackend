@@ -104,16 +104,14 @@ namespace Consensus
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseSwagger();
 
             app.UseSwaggerUI(current => { current.SwaggerEndpoint("/swagger/v1/swagger.json", "Consensus"); });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chatHub");
-            });
+            app.UseSignalR(routes => { routes.MapHub<ChatHub>("/chatHub"); });
 
             app.UseMvc();
         }

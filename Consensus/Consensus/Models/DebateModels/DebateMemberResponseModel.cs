@@ -7,7 +7,7 @@ namespace Consensus.Models.DebateModels
         public DebateMemberResponseModel(
             string nickName,
             Guid identifier,
-            bool ready, 
+            bool ready,
             string translationLink)
         {
             NickName = nickName;
@@ -18,19 +18,22 @@ namespace Consensus.Models.DebateModels
 
 
         /// <summary>
-        /// NickName дебатера
+        ///     NickName дебатера
         /// </summary>
         public string NickName { get; }
+
         /// <summary>
-        /// Id дебатера
+        ///     Id дебатера
         /// </summary>
         public Guid Identifier { get; }
+
         /// <summary>
-        /// Готовность начать сражение
+        ///     Готовность начать сражение
         /// </summary>
         public bool Ready { get; }
+
         /// <summary>
-        /// Ссылка для трансляции
+        ///     Ссылка для трансляции
         /// </summary>
         public string TranslationLink { get; }
     }

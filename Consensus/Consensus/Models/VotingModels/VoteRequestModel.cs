@@ -3,17 +3,17 @@
 namespace Consensus.Models.VotingModels
 {
     /// <summary>
-    /// Модель отправление голоса
+    ///     Модель отправление голоса
     /// </summary>
     public class VoteRequestModel
     {
-
         /// <summary>
-        /// Id дебатера, которому отдается голос
+        ///     Id дебатера, которому отдается голос
         /// </summary>
         public Guid ToUser { get; set; }
+
         /// <summary>
-        /// Id дебатов
+        ///     Id дебатов
         /// </summary>
         public Guid DebateId { get; set; }
     }
