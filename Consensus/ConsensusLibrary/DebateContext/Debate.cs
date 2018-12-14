@@ -100,12 +100,6 @@ namespace ConsensusLibrary.DebateContext
             Ensure.Bool.IsTrue(State == DebateState.Waiting, nameof(State),
                 opt => opt.WithException(new InvalidOperationException()));
 
-            if (!IsPossibleToStart())
-            {
-                State = DebateState.Overdue;
-                return;
-            }
-
             targetMember.BecomeReady();
 
             TryToStartDebate();
@@ -151,10 +145,12 @@ namespace ConsensusLibrary.DebateContext
             State = DebateState.Approved;
         }
 
-        private bool IsPossibleToStart()
+        public void CheckDebateStatus()
         {
-            var now = DateTimeOffset.UtcNow;
-            return now - StartDateTime < new TimeSpan(0, 0, 2, 0); //TODO config values
+            if (StartDateTime < DateTimeOffset.UtcNow)
+            {
+                State = DebateState.Overdue;
+            }
         }
     }
 }

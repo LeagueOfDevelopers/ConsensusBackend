@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConsensusLibrary.BackgroundProcessService;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
@@ -14,17 +15,20 @@ namespace ConsensusLibrary.DebateContext
     {
         private readonly IDebateRepository _debateRepository;
         private readonly DebateSettings _debateSettings;
+        private readonly IBackgroundProcessService _backgroundProcessService;
 
         private readonly IUserRepository _userRepository;
 
         public DebateFacade(
             IUserRepository userRepository,
             IDebateRepository debateRepository,
-            DebateSettings debateSettings)
+            DebateSettings debateSettings,
+            IBackgroundProcessService backgroundProcessService)
         {
             _userRepository = Ensure.Any.IsNotNull(userRepository);
             _debateRepository = Ensure.Any.IsNotNull(debateRepository);
             _debateSettings = Ensure.Any.IsNotNull(debateSettings);
+            _backgroundProcessService = Ensure.Any.IsNotNull(_backgroundProcessService);
         }
 
         public Identifier CreateDebate(DateTimeOffset startDateTime,
@@ -40,6 +44,8 @@ namespace ConsensusLibrary.DebateContext
                 debateCategory, _debateSettings.RoundCount, _debateSettings.RoundLength);
 
             _debateRepository.AddDebate(newDebates);
+
+            _backgroundProcessService.DelayedCheckDebateOverdue(newDebates.Identifier, startDateTime);
 
             return newDebates.Identifier;
         }

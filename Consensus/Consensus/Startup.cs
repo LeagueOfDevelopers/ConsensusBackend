@@ -7,6 +7,7 @@ using Consensus.Filters;
 using Consensus.Hubs;
 using Consensus.Models;
 using Consensus.Security;
+using ConsensusLibrary.BackgroundProcessService;
 using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.UserContext;
@@ -37,14 +38,38 @@ namespace Consensus
             var userRepository = new InMemoryUserRepository();
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+            var useHangFire = Configuration.GetValue<bool>("UseHangFire");
+            var hangFireConneсtionString = Configuration.GetValue<string>("HangFireConnectionString");
+            var roundLength = Configuration.GetValue<TimeSpan>("DebateRoundLength");
+            var backgroundProcessServiceSettings = new BackgroundProcessServiceSettings(
+                Configuration.GetValue<TimeSpan>("DebateAllowedOverdue"), roundLength);
+
             var debateSettings = new DebateSettings(Configuration.GetValue<int>("DebateRoundCount"),
-                Configuration.GetValue<TimeSpan>("DebateRoundLength"));
+                roundLength);
 
             var debateRepository = new InMemoryDebateRepository();
-            var debateFacade = new DebateFacade(userRepository, debateRepository, debateSettings);
+            
+
+            IBackgroundProcessService backgroundProcessService;
+
+            if (useHangFire)
+            {
+                backgroundProcessService = new HangFireProcessService(
+                    backgroundProcessServiceSettings,
+                    debateRepository,
+                    hangFireConneсtionString);
+            }
+            else
+            {
+                backgroundProcessService = new TimerBackgroundProcessService(
+                    backgroundProcessServiceSettings, 
+                    debateRepository);
+            }
+
+            var debateFacade = new DebateFacade(userRepository, debateRepository,
+                debateSettings, backgroundProcessService);
             var debateVotingFacade = new DebateVotingFacade(debateRepository, userRepository);
             var chatFacade = new ChatFacade(debateRepository, userRepository);
-
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
             services.AddSingleton<IDebateFacade>(debateFacade);
