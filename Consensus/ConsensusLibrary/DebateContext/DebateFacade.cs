@@ -28,7 +28,7 @@ namespace ConsensusLibrary.DebateContext
             _userRepository = Ensure.Any.IsNotNull(userRepository);
             _debateRepository = Ensure.Any.IsNotNull(debateRepository);
             _debateSettings = Ensure.Any.IsNotNull(debateSettings);
-            _backgroundProcessService = Ensure.Any.IsNotNull(_backgroundProcessService);
+            _backgroundProcessService = Ensure.Any.IsNotNull(backgroundProcessService);
         }
 
         public Identifier CreateDebate(DateTimeOffset startDateTime,
