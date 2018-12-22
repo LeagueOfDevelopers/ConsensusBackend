@@ -7,6 +7,9 @@ using RestSharp;
 
 namespace Consensus.Controllers
 {
+    /// <summary>
+    /// Всё, связанное с коннектом к openvidu напрямую
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class PublishController : ControllerBase

@@ -13,11 +13,11 @@ namespace Consensus.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class DebateController : ControllerBase
+    public class DebatesController : ControllerBase
     {
         private readonly IDebateFacade _debateFacade;
 
-        public DebateController(IDebateFacade debateFacade)
+        public DebatesController(IDebateFacade debateFacade)
         {
             _debateFacade = Ensure.Any.IsNotNull(debateFacade);
         }

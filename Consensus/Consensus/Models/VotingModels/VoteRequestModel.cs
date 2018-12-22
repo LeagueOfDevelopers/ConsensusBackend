@@ -11,10 +11,5 @@ namespace Consensus.Models.VotingModels
         ///     Id дебатера, которому отдается голос
         /// </summary>
         public Guid ToUser { get; set; }
-
-        /// <summary>
-        ///     Id дебатов
-        /// </summary>
-        public Guid DebateId { get; set; }
     }
 }

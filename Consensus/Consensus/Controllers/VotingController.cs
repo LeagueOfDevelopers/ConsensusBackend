@@ -1,4 +1,5 @@
-﻿using Consensus.Extensions;
+﻿using System;
+using Consensus.Extensions;
 using Consensus.Models.VotingModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Consensus.Controllers
 {
-    [Route("[controller]")]
+    [Route("/debates/{debateId}/[controller]")]
     [ApiController]
     public class VotingController : ControllerBase
     {
@@ -24,10 +25,10 @@ namespace Consensus.Controllers
         [ProducesResponseType(typeof(OkObjectResult), 200)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public IActionResult Vote([FromRoute] VoteRequestModel model)
+        public IActionResult Vote([FromBody] VoteRequestModel model, [FromRoute] Guid debateId)
         {
             var requestedId = Request.GetUserId();
-            _debateVotingFacade.Vote(new Identifier(model.DebateId), new Identifier(requestedId),
+            _debateVotingFacade.Vote(new Identifier(debateId), new Identifier(requestedId),
                 new Identifier(model.ToUser));
             return Ok();
         }
@@ -35,9 +36,9 @@ namespace Consensus.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(GetVotingResultResponseModel), 200)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public IActionResult GetVotingResult([FromRoute] GetVotingResultRequestModel model)
+        public IActionResult GetVotingResult([FromRoute] Guid debateId)
         {
-            var result = _debateVotingFacade.GetVotingResults(new Identifier(model.DebateId));
+            var result = _debateVotingFacade.GetVotingResults(new Identifier(debateId));
 
             var response = new GetVotingResultResponseModel(result.FirstDedaterVotesTotalCount,
                 result.FirstDedaterNickName, result.FirstDedaterIdentifier,
