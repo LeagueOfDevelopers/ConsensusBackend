@@ -131,8 +131,7 @@ namespace Consensus
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000", "http://consensusru.herokuapp.com").AllowAnyMethod().AllowAnyHeader()
-                .AllowCredentials());
+            app.UseCors("AllowAnyOrigin");
 
             app.UseSwagger();
 
