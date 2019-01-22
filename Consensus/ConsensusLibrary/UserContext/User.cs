@@ -1,4 +1,5 @@
-﻿using ConsensusLibrary.Tools;
+﻿using System;
+using ConsensusLibrary.Tools;
 using EnsureThat;
 
 namespace ConsensusLibrary.UserContext
@@ -13,6 +14,7 @@ namespace ConsensusLibrary.UserContext
 
             Identifier = new Identifier();
             Credentials = new Credentials(passwordHash, nickName, email);
+            UserProfile = new UserProfile(DateTimeOffset.Now);
         }
 
         public Credentials Credentials { get; }

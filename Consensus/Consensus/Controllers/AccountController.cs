@@ -13,13 +13,16 @@ namespace Consensus.Controllers
         private readonly IJwtIssuer _jwtIssuer;
 
         private readonly IRegistrationFacade _registrationFacade;
+        private readonly IUserProfileFacade _userProfileFacade;
 
         public AccountController(
             IRegistrationFacade registrationFacade,
+            IUserProfileFacade userProfileFacade,
             IJwtIssuer jwtIssuer)
         {
             _registrationFacade = Ensure.Any.IsNotNull(registrationFacade);
             _jwtIssuer = Ensure.Any.IsNotNull(jwtIssuer);
+            _userProfileFacade = Ensure.Any.IsNotNull(userProfileFacade);
         }
 
         [HttpPost]
@@ -44,7 +47,12 @@ namespace Consensus.Controllers
 
             if (userIdentifier == null) return Unauthorized();
 
-            var response = new LoginResponseModel(_jwtIssuer.IssueJwt(Claims.Roles.User, userIdentifier.Identifier.Id));
+            var currentUserProfile = _userProfileFacade.GetUserProfileForLogin(userIdentifier.Identifier);
+
+            var response = new LoginResponseModel(
+                _jwtIssuer.IssueJwt(Claims.Roles.User, userIdentifier.Identifier.Id),
+                currentUserProfile.NickName, currentUserProfile.Email,
+                currentUserProfile.RegistrationDateTime);
 
             return Ok(response);
         }

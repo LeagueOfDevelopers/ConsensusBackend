@@ -38,6 +38,7 @@ namespace Consensus
             var userRepository = new InMemoryUserRepository();
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
+            var userProfileFacade = new UserProfileFacade(userRepository);
             var useHangFire = Configuration.GetValue<bool>("UseHangFire");
             var hangFireConneсtionString = Configuration.GetValue<string>("HangFireConnectionString");
             var roundLength = Configuration.GetValue<TimeSpan>("DebateRoundLength");
@@ -75,6 +76,7 @@ namespace Consensus
             services.AddSingleton<IDebateFacade>(debateFacade);
             services.AddSingleton<IDebateVotingFacade>(debateVotingFacade);
             services.AddSingleton<IChatFacade>(chatFacade);
+            services.AddSingleton<IUserProfileFacade>(userProfileFacade);
 
             ConfigureSecurity(services);
 
