@@ -1,4 +1,5 @@
-﻿using ConsensusLibrary.UserContext.Exceptions;
+﻿using System;
+using ConsensusLibrary.UserContext.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -14,6 +15,12 @@ namespace Consensus.Filters
                     context.Result = new BadRequestObjectResult(exception.Message);
                     return;
                 case UserAlreadyExistsException exception:
+                    context.Result = new BadRequestObjectResult(exception.Message);
+                    return;
+                case ArgumentNullException exception:
+                    context.Result = new BadRequestObjectResult(exception.Message);
+                    return;
+                case ArgumentException exception:
                     context.Result = new BadRequestObjectResult(exception.Message);
                     return;
                 default:
