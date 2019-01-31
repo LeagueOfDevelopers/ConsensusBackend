@@ -1,4 +1,5 @@
-﻿using ConsensusLibrary.Tools;
+﻿using System.Collections.Generic;
+using ConsensusLibrary.Tools;
 
 namespace ConsensusLibrary.UserContext
 {
@@ -10,5 +11,6 @@ namespace ConsensusLibrary.UserContext
         User GetUserByCredentials(Credentials credentials);
         User TryGetUserByEmail(string email);
         User TryGetUserByEmailOrNickName(string email, string nickName);
+        IEnumerable<User> GetUsersByName(string nameSection);
     }
 }

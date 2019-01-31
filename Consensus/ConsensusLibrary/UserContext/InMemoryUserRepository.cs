@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConsensusLibrary.Tools;
 using ConsensusLibrary.UserContext.Exceptions;
@@ -66,6 +67,21 @@ namespace ConsensusLibrary.UserContext
 
             return result;
             ;
+        }
+
+        public IEnumerable<User> GetUsersByName(string nameSection)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(nameSection);
+
+            nameSection = nameSection.ToLower();
+
+            var result = _users.Where(u => u.Credentials.NickName
+                .ToLower()
+                .Contains(nameSection))
+                .ToList()
+                .OrderBy(u => u.Credentials.NickName.Length);
+
+            return result;
         }
     }
 }
