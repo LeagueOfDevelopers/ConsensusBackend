@@ -17,7 +17,7 @@ namespace Consensus.Models.DebateModels
             string firstDebaterName,
             string secondDebaterName,
             string spectatorsCount,
-            DebateCategory theme,
+            string theme,
             IFormFile thumbnail)
         {
             Id = id;
@@ -77,7 +77,7 @@ namespace Consensus.Models.DebateModels
         ///     Тема дебатов
         /// </summary>
         [Required]
-        public DebateCategory Theme { get; }
+        public string Theme { get; }
 
         /// <summary>
         ///     Миниатюра дебатов
