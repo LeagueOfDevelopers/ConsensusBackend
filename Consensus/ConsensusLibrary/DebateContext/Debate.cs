@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using ConsensusLibrary.CategoryContext;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.Tools;
 using EnsureThat;
@@ -21,7 +22,7 @@ namespace ConsensusLibrary.DebateContext
             string title,
             Identifier inviterIdentifier,
             Identifier invitedIdentifier,
-            DebateCategory debateCategory,
+            Category debateCategory,
             int roundCount,
             TimeSpan roundLength)
         {
@@ -60,7 +61,7 @@ namespace ConsensusLibrary.DebateContext
         public DateTimeOffset StartDateTime { get; private set; }
         public DateTimeOffset EndDateTime => StartDateTime.Add(RoundLength * RoundCount);
         public string Title { get; }
-        public DebateCategory DebateCategory { get; }
+        public Category DebateCategory { get; }
         public IEnumerable<DebateMember> Members => _members;
         public IEnumerable<VoteInfo> Votes => _votes;
         public IEnumerable<Message> Messages => _messages;

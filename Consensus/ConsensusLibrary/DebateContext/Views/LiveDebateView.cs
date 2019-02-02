@@ -13,7 +13,7 @@ namespace ConsensusLibrary.DebateContext.Views
             string firstDebaterName,
             string secondDebaterName,
             int spectatorsCount,
-            DebateCategory theme,
+            string theme,
             IFormFile thumbnail)
         {
             Id = id;
@@ -34,7 +34,7 @@ namespace ConsensusLibrary.DebateContext.Views
         public string FirstDebaterName { get; }
         public string SecondDebaterName { get; }
         public int SpectatorsCount { get; }
-        public DebateCategory Theme { get; }
+        public string Theme { get; }
         public IFormFile Thumbnail { get; }
     }
 }
