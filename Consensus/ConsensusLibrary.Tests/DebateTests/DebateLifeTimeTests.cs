@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ConsensusLibrary.CategoryContext;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
 using Xunit;
@@ -16,7 +17,7 @@ namespace ConsensusLibrary.Tests.DebateTests
             var title = "Test Debates";
             var inviterId = new Identifier(Guid.NewGuid());
             var invitedId = new Identifier(Guid.NewGuid());
-            var debateCategory = DebateCategory.Home;
+            var debateCategory = new Category("Home");
             var expectedRoundCount = 4;
             var roundLength = new TimeSpan(0, 0, 5, 0);
 
@@ -46,7 +47,7 @@ namespace ConsensusLibrary.Tests.DebateTests
             var title = "Test Debates";
             var inviterId = new Identifier(Guid.NewGuid());
             var invitedId = new Identifier(Guid.NewGuid());
-            var debateCategory = DebateCategory.Home;
+            var debateCategory = new Category("Home");
             var roundCount = 4;
             var roundLength = new TimeSpan(0, 0, 5, 0);
             //Act
