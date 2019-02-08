@@ -10,6 +10,7 @@ using Consensus.Security;
 using ConsensusLibrary.BackgroundProcessService;
 using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.DebateContext;
+using ConsensusLibrary.FileContext;
 using ConsensusLibrary.UserContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -25,12 +26,14 @@ namespace Consensus
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Env = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -49,7 +52,10 @@ namespace Consensus
                 roundLength);
 
             var debateRepository = new InMemoryDebateRepository();
-            
+
+            var fileRepository = new InMemoryFileRepository();
+            var fileSettings = new FileSettings(GenerateUploadPath());
+            var fileFacade = new FileFacade(fileRepository, userRepository, fileSettings);
 
             IBackgroundProcessService backgroundProcessService;
 
@@ -77,6 +83,7 @@ namespace Consensus
             services.AddSingleton<IDebateVotingFacade>(debateVotingFacade);
             services.AddSingleton<IChatFacade>(chatFacade);
             services.AddSingleton<IUserProfileFacade>(userProfileFacade);
+            services.AddSingleton<IFileFacade>(fileFacade);
 
             ConfigureSecurity(services);
 
@@ -178,6 +185,17 @@ namespace Consensus
                         new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
                             .RequireClaim(Claims.Roles.RoleClaim, Claims.Roles.Admin).Build());
                 });
+        }
+
+        private string GenerateUploadPath()
+        {
+            var uploadPath = Path.Combine(Env.WebRootPath,
+                Configuration.GetValue<string>("UploadDirectory"));
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            return uploadPath;
         }
     }
 }
