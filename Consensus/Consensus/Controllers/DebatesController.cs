@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Consensus.Extensions;
+using Consensus.Models;
 using Consensus.Models.DebateModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
@@ -74,7 +75,7 @@ namespace Consensus.Controllers
         [HttpPost]
         [Route("{debateId}/status")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         [ProducesResponseType(401)]
         public IActionResult SetStatus([FromRoute] Guid debateId)
         {

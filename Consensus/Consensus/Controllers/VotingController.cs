@@ -1,5 +1,6 @@
 ﻿using System;
 using Consensus.Extensions;
+using Consensus.Models;
 using Consensus.Models.VotingModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
@@ -24,7 +25,7 @@ namespace Consensus.Controllers
         [Authorize]
         [ProducesResponseType(typeof(OkObjectResult), 200)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         public IActionResult Vote([FromBody] VoteRequestModel model, [FromRoute] Guid debateId)
         {
             var requestedId = Request.GetUserId();
@@ -35,7 +36,7 @@ namespace Consensus.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(GetVotingResultResponseModel), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         public IActionResult GetVotingResult([FromRoute] Guid debateId)
         {
             var result = _debateVotingFacade.GetVotingResults(new Identifier(debateId));
