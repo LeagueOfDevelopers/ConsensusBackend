@@ -8,6 +8,7 @@ using Consensus.Hubs;
 using Consensus.Models;
 using Consensus.Security;
 using ConsensusLibrary.BackgroundProcessService;
+using ConsensusLibrary.CategoryContext;
 using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.FileContext;
@@ -39,6 +40,10 @@ namespace Consensus
         public void ConfigureServices(IServiceCollection services)
         {
             var userRepository = new InMemoryUserRepository();
+
+            var categoryRepository = new InMemoryCategoryRepository();
+            FillCategories(categoryRepository);
+
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
             var userProfileFacade = new UserProfileFacade(userRepository);
@@ -74,15 +79,18 @@ namespace Consensus
             }
 
             var debateFacade = new DebateFacade(userRepository, debateRepository,
-                debateSettings, backgroundProcessService);
+                debateSettings, backgroundProcessService, categoryRepository);
             var debateVotingFacade = new DebateVotingFacade(debateRepository, userRepository);
             var chatFacade = new ChatFacade(debateRepository, userRepository);
+            var categoryFacade = new CategoryFacade(categoryRepository);
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
             services.AddSingleton<IDebateFacade>(debateFacade);
             services.AddSingleton<IDebateVotingFacade>(debateVotingFacade);
             services.AddSingleton<IChatFacade>(chatFacade);
             services.AddSingleton<IUserProfileFacade>(userProfileFacade);
+
+            services.AddSingleton<ICategoryFacade>(categoryFacade);
             services.AddSingleton<IFileFacade>(fileFacade);
 
             ConfigureSecurity(services);
@@ -147,6 +155,12 @@ namespace Consensus
             app.UseSignalR(routes => { routes.MapHub<ChatHub>("/chatHub"); });
 
             app.UseMvc();
+        }
+
+        private void FillCategories(ICategoryRepository repository)
+        {
+            repository.AddCategory(new Category("Home"));
+            repository.AddCategory(new Category("Politics"));
         }
 
         private void ConfigureSecurity(IServiceCollection services)

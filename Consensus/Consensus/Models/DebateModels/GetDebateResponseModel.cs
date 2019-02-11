@@ -9,7 +9,7 @@ namespace Consensus.Models.DebateModels
         public GetDebateResponseModel(
             DateTimeOffset startDateTime,
             string title,
-            DebateCategory category,
+            string category,
             DebateState state,
             IEnumerable<DebateMemberResponseModel> members)
         {
@@ -33,7 +33,7 @@ namespace Consensus.Models.DebateModels
         /// <summary>
         ///     Категория дебатов
         /// </summary>
-        public DebateCategory Category { get; }
+        public string Category { get; }
 
         /// <summary>
         ///     Состояние дебатов
