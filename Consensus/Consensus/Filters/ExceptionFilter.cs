@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Consensus.Models;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.UserContext.Exceptions;
