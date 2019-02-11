@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Consensus.Extensions;
+using Consensus.Models;
 using Consensus.Models.ChatModels;
 using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tools;
@@ -25,7 +26,7 @@ namespace Consensus.Controllers
         [Authorize]
         [HttpPost]
         [Route("message")]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         [ProducesResponseType(typeof(SendMessageResponseModel), 200)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
         public IActionResult SendMessage([FromBody] SendMessageRequestModel model)
@@ -43,7 +44,7 @@ namespace Consensus.Controllers
         [Authorize]
         [HttpGet]
         [Route("message/{debateId}")]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         [ProducesResponseType(typeof(GetMessagesResponseModel), 200)]
         [ProducesResponseType(typeof(UnauthorizedResult), 401)]
         public IActionResult GetMessages([FromRoute] Guid debateId)

@@ -1,4 +1,5 @@
-﻿using Consensus.Models.AccountModels;
+﻿using Consensus.Models;
+using Consensus.Models.AccountModels;
 using Consensus.Security;
 using ConsensusLibrary.UserContext;
 using EnsureThat;
@@ -27,7 +28,7 @@ namespace Consensus.Controllers
 
         [HttpPost]
         [Route("registration")]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(typeof(ErrorViewModel), 400)]
         [ProducesResponseType(typeof(RegistrationResponseModel), 200)]
         public IActionResult Registration([FromBody] RegistrationRequestModel model)
         {
