@@ -10,7 +10,7 @@ namespace ConsensusLibrary.DebateContext.Views
             Identifier identifier,
             DateTimeOffset startDateTime,
             string title,
-            DebateCategory category,
+            string category,
             DebateState state,
             IEnumerable<DebateMemberView> members)
         {
@@ -25,7 +25,7 @@ namespace ConsensusLibrary.DebateContext.Views
         public Identifier Identifier { get; }
         public DateTimeOffset StartDateTime { get; }
         public string Title { get; }
-        public DebateCategory Category { get; }
+        public string Category { get; }
         public DebateState State { get; }
         public IEnumerable<DebateMemberView> Members { get; }
     }

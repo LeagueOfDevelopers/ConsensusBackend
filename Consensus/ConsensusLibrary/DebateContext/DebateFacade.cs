@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ConsensusLibrary.BackgroundProcessService;
+using ConsensusLibrary.CategoryContext;
+using ConsensusLibrary.CategoryContext.Exceptions;
 using ConsensusLibrary.DebateContext.Exceptions;
 using ConsensusLibrary.DebateContext.Views;
 using ConsensusLibrary.Tools;
@@ -16,6 +18,7 @@ namespace ConsensusLibrary.DebateContext
         private readonly IDebateRepository _debateRepository;
         private readonly DebateSettings _debateSettings;
         private readonly IBackgroundProcessService _backgroundProcessService;
+        private readonly ICategoryRepository _categoryRepository;
 
         private readonly IUserRepository _userRepository;
 
@@ -23,16 +26,18 @@ namespace ConsensusLibrary.DebateContext
             IUserRepository userRepository,
             IDebateRepository debateRepository,
             DebateSettings debateSettings,
-            IBackgroundProcessService backgroundProcessService)
+            IBackgroundProcessService backgroundProcessService,
+            ICategoryRepository categoryRepository)
         {
             _userRepository = Ensure.Any.IsNotNull(userRepository);
             _debateRepository = Ensure.Any.IsNotNull(debateRepository);
             _debateSettings = Ensure.Any.IsNotNull(debateSettings);
             _backgroundProcessService = Ensure.Any.IsNotNull(backgroundProcessService);
+            _categoryRepository = Ensure.Any.IsNotNull(categoryRepository);
         }
 
         public Identifier CreateDebate(DateTimeOffset startDateTime,
-            string title, Identifier inviter, Identifier invited, DebateCategory debateCategory)
+            string title, Identifier inviter, Identifier invited, string debateCategory)
         {
             Ensure.Any.IsNotNull(inviter);
             Ensure.Any.IsNotNull(invited);
@@ -40,8 +45,10 @@ namespace ConsensusLibrary.DebateContext
             var inviterUser = _userRepository.GetUserById(inviter);
             var invitedUser = _userRepository.GetUserById(invited);
 
+            var currentCategory = _categoryRepository.GetCategoryByTitle(debateCategory);
+
             var newDebates = new Debate(startDateTime, title, inviter, invited,
-                debateCategory, _debateSettings.RoundCount, _debateSettings.RoundLength);
+                currentCategory, _debateSettings.RoundCount, _debateSettings.RoundLength);
 
             _debateRepository.AddDebate(newDebates);
 
@@ -68,7 +75,7 @@ namespace ConsensusLibrary.DebateContext
             });
 
             var result = new DebateView(debate.Identifier, debate.StartDateTime,
-                debate.Title, debate.DebateCategory, debate.State, membersView);
+                debate.Title, debate.DebateCategory.CategoryTitle, debate.State, membersView);
 
             return result;
         }
@@ -85,7 +92,7 @@ namespace ConsensusLibrary.DebateContext
                 var rightOpponent = _userRepository.GetUserById(opponents[1].UserIdentifier);
                 result.Add(new LiveDebateView(d.Identifier, d.Title, leftOpponent.Identifier, rightOpponent.Identifier,
                     leftOpponent.Credentials.NickName, rightOpponent.Credentials.NickName, viewers.Count,
-                    d.DebateCategory, null));
+                    d.DebateCategory.CategoryTitle, null));
             });
 
             return result;

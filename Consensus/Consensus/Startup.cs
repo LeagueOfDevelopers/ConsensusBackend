@@ -8,8 +8,10 @@ using Consensus.Hubs;
 using Consensus.Models;
 using Consensus.Security;
 using ConsensusLibrary.BackgroundProcessService;
+using ConsensusLibrary.CategoryContext;
 using ConsensusLibrary.CryptoContext;
 using ConsensusLibrary.DebateContext;
+using ConsensusLibrary.FileContext;
 using ConsensusLibrary.UserContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -25,17 +27,23 @@ namespace Consensus
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Env = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var userRepository = new InMemoryUserRepository();
+
+            var categoryRepository = new InMemoryCategoryRepository();
+            FillCategories(categoryRepository);
+
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
             var userProfileFacade = new UserProfileFacade(userRepository);
@@ -50,7 +58,10 @@ namespace Consensus
                 roundLength);
 
             var debateRepository = new InMemoryDebateRepository();
-            
+
+            var fileRepository = new InMemoryFileRepository();
+            var fileSettings = new FileSettings(GenerateUploadPath());
+            var fileFacade = new FileFacade(fileRepository, userRepository, fileSettings);
 
             IBackgroundProcessService backgroundProcessService;
 
@@ -69,9 +80,10 @@ namespace Consensus
             }
 
             var debateFacade = new DebateFacade(userRepository, debateRepository,
-                debateSettings, backgroundProcessService);
+                debateSettings, backgroundProcessService, categoryRepository);
             var debateVotingFacade = new DebateVotingFacade(debateRepository, userRepository);
             var chatFacade = new ChatFacade(debateRepository, userRepository);
+            var categoryFacade = new CategoryFacade(categoryRepository);
 
             services.AddSingleton<IRegistrationFacade>(registrationFacade);
             services.AddSingleton<IUserSearchFacade>(userSearchFacade);
@@ -79,6 +91,9 @@ namespace Consensus
             services.AddSingleton<IDebateVotingFacade>(debateVotingFacade);
             services.AddSingleton<IChatFacade>(chatFacade);
             services.AddSingleton<IUserProfileFacade>(userProfileFacade);
+
+            services.AddSingleton<ICategoryFacade>(categoryFacade);
+            services.AddSingleton<IFileFacade>(fileFacade);
 
             ConfigureSecurity(services);
 
@@ -144,6 +159,12 @@ namespace Consensus
             app.UseMvc();
         }
 
+        private void FillCategories(ICategoryRepository repository)
+        {
+            repository.AddCategory(new Category("Home"));
+            repository.AddCategory(new Category("Politics"));
+        }
+
         private void ConfigureSecurity(IServiceCollection services)
         {
             var securityConfiguration = Configuration.GetSection("Security");
@@ -180,6 +201,17 @@ namespace Consensus
                         new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
                             .RequireClaim(Claims.Roles.RoleClaim, Claims.Roles.Admin).Build());
                 });
+        }
+
+        private string GenerateUploadPath()
+        {
+            var uploadPath = Path.Combine(Env.WebRootPath,
+                Configuration.GetValue<string>("UploadDirectory"));
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            return uploadPath;
         }
     }
 }

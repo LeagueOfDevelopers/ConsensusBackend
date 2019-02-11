@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using ConsensusLibrary.DebateContext;
 
 namespace Consensus.Models.DebateModels
 {
@@ -31,6 +30,6 @@ namespace Consensus.Models.DebateModels
         ///     Категория дебатов
         /// </summary>
         [Required]
-        public DebateCategory DebateCategory { get; set; }
+        public string DebateCategory { get; set; }
     }
 }
