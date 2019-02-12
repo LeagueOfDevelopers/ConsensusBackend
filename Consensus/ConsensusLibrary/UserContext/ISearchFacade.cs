@@ -4,6 +4,6 @@ namespace ConsensusLibrary.UserContext
 {
     public interface IUserSearchFacade
     {
-        SearchUserByNameView SearchUserByName(string nameSection);
+        SearchUserByNameView SearchUserByName(string nameSection, int pageSize, int pageNumber);
     }
 }

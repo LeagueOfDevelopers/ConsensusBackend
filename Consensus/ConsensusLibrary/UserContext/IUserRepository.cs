@@ -11,6 +11,6 @@ namespace ConsensusLibrary.UserContext
         User GetUserByCredentials(Credentials credentials);
         User TryGetUserByEmail(string email);
         User TryGetUserByEmailOrNickName(string email, string nickName);
-        IEnumerable<User> GetUsersByName(string nameSection);
+        IEnumerable<User> GetUsersByName(string nameSection, int pageSize, int pageNumber);
     }
 }
