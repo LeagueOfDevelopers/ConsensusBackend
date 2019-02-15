@@ -7,11 +7,11 @@ namespace ConsensusLibrary.UserContext
 {
     public class UserSearchFacade : IUserSearchFacade
     {
-        public SearchUserByNameView SearchUserByName(string nameSection)
+        public SearchUserByNameView SearchUserByName(string nameSection, int pageSize, int pageNumber)
         {
             Ensure.String.IsNotNullOrWhiteSpace(nameSection);
 
-            var appropriateUsers = _userRepository.GetUsersByName(nameSection);
+            var appropriateUsers = _userRepository.GetUsersByName(nameSection, pageSize, pageNumber);
 
             var userViewList = new List<SearchUserByNameItemView>();
 

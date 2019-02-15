@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ConsensusLibrary.Tools;
 using ConsensusLibrary.UserContext.Exceptions;
@@ -66,10 +65,9 @@ namespace ConsensusLibrary.UserContext
                 u.Credentials.Email.ToLower() == email || u.Credentials.NickName.ToLower() == nickName);
 
             return result;
-            ;
         }
 
-        public IEnumerable<User> GetUsersByName(string nameSection)
+        public IEnumerable<User> GetUsersByName(string nameSection, int pageSize, int pageNumber)
         {
             Ensure.String.IsNotNullOrWhiteSpace(nameSection);
 
@@ -78,8 +76,10 @@ namespace ConsensusLibrary.UserContext
             var result = _users.Where(u => u.Credentials.NickName
                 .ToLower()
                 .Contains(nameSection))
-                .ToList()
-                .OrderBy(u => u.Credentials.NickName.Length);
+                .OrderBy(u => u.Credentials.NickName.Length)
+                .Skip(pageSize*(pageNumber-1))
+                .Take(pageSize)
+                .ToList();
 
             return result;
         }
