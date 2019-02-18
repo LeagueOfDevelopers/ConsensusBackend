@@ -19,6 +19,6 @@ namespace ConsensusLibrary.UserContext
 
         public Credentials Credentials { get; }
         public Identifier Identifier { get; }
-        public UserProfile UserProfile { get; private set; }
+        public UserProfile UserProfile { get; }
     }
 }
