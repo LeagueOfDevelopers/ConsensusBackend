@@ -29,6 +29,38 @@ namespace ConsensusLibrary.DebateContext
                 d.StartDateTime > DateTimeOffset.UtcNow && d.EndDateTime < DateTimeOffset.UtcNow);
         }
 
+        public IEnumerable<Debate> SearchDebate(
+            string debateTitle,
+            string category,
+            bool isLive,
+            int pageSize,
+            int pageNumber)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(debateTitle);
+            Ensure.String.IsNotNullOrWhiteSpace(category);
+
+            var debate = _debates
+                .Where(d => d.Title
+                    .ToLower()
+                    .Contains(debateTitle.ToLower()))
+                .OrderBy(d => d.Title.Length)
+                .Where(d => d.DebateCategory.CategoryTitle
+                    .Equals(category));
+
+            if (isLive)
+            {
+                debate = debate.Where(d => d.StartDateTime > DateTimeOffset.UtcNow &&
+                                           d.EndDateTime < DateTimeOffset.UtcNow);
+            }
+
+            debate = debate
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return debate;
+        }
+
         public Debate GetDebate(Identifier identifier)
         {
             Ensure.Any.IsNotNull(identifier);

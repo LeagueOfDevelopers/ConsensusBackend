@@ -24,7 +24,7 @@ namespace ConsensusLibrary.BackgroundProcessService
             var timer = new Timer();
             var fromNowToStart = startDebate - DateTimeOffset.UtcNow;
             timer.Interval = fromNowToStart.Add(_settings.AllowedOverdueForDebateStart).TotalMilliseconds;
-            timer.Start();
+            //timer.Start();
 
             timer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
