@@ -1,11 +1,9 @@
-﻿using ConsensusLibrary.UserContext.Views;
+using ConsensusLibrary.UserContext.Views;
 
 namespace ConsensusLibrary.UserContext
 {
     public interface IUserSearchFacade
     {
-        SearchUserByNameView SearchUserByName(string nameSection);
-
         SearchUsersAndDebatesView SearchUsersAndDebates(
             string sectionName,
             string category,
@@ -13,5 +11,6 @@ namespace ConsensusLibrary.UserContext
             int pageSize,
             int debatePageNumber,
             int userPageNumber);
+        SearchUserByNameView SearchUserByName(string nameSection, int pageSize, int pageNumber);
     }
 }

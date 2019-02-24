@@ -52,6 +52,7 @@ namespace Consensus
             var roundLength = Configuration.GetValue<TimeSpan>("DebateRoundLength");
             var backgroundProcessServiceSettings = new BackgroundProcessServiceSettings(
                 Configuration.GetValue<TimeSpan>("DebateAllowedOverdue"), roundLength);
+            var paginationSettings = new PaginationSettings(Configuration.GetValue<int>("PageSize"));
 
             var debateSettings = new DebateSettings(Configuration.GetValue<int>("DebateRoundCount"),
                 roundLength);
@@ -95,6 +96,7 @@ namespace Consensus
 
             services.AddSingleton<ICategoryFacade>(categoryFacade);
             services.AddSingleton<IFileFacade>(fileFacade);
+            services.AddSingleton(paginationSettings);
 
             ConfigureSecurity(services);
 
