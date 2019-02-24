@@ -40,7 +40,7 @@ namespace ConsensusLibrary.UserContext
             Ensure.Bool.IsTrue(_categoryRepository.DoesCategoryExist(category),
                 nameof(category), opt => opt.WithException(new CategoryNotFoundException()));
 
-            var selectedUsers = _userRepository.GetUsersByName(sectionName);
+            var selectedUsers = _userRepository.GetUsersByName(sectionName, pageSize, userPageNumber);
             var selectedDebates = _debateRepository.SearchDebate(
                 sectionName,
                 category,

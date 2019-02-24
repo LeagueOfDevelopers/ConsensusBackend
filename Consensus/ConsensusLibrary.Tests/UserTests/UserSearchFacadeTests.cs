@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ConsensusLibrary.CategoryContext;
+using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.Tests.UserTests.ResultGenerator;
 using ConsensusLibrary.UserContext;
 using Xunit;
@@ -10,13 +12,19 @@ namespace ConsensusLibrary.Tests.UserTests
 {
     public class UserSearchFacadeTests
     {
-        [Fact]
-        public void Constructor_BadParams_Throws()
+        const int pageSize = 5;
+        const int pageNumber = 1;
+
+        [Theory]
+        [MemberData(nameof(UserSearchFacadeTestsGenerator.GetConstructorParams),
+            MemberType = typeof(UserSearchFacadeTestsGenerator))]
+        public void Constructor_BadParams_Throws(
+            IUserRepository userRepository,
+            IDebateRepository debateRepository,
+            ICategoryRepository categoryRepository)
         {
-            //Arrange
-            const IUserRepository userRepository = null;
-            //Act
-            Assert.Throws<ArgumentNullException>(() => new UserSearchFacade(userRepository));
+            Assert.Throws<ArgumentNullException>(() => new UserSearchFacade(userRepository,
+                debateRepository, categoryRepository));
         }
 
         [Fact]
@@ -24,10 +32,12 @@ namespace ConsensusLibrary.Tests.UserTests
         {
             //Arrange
             var userRepository = new InMemoryUserRepository();
-            var userSearchFacade = new UserSearchFacade(userRepository);
+            var categoryRepository = new InMemoryCategoryRepository();
+            var debateRepository = new InMemoryDebateRepository();
+            var userSearchFacade = new UserSearchFacade(userRepository, debateRepository, categoryRepository);
             const string username = null;
             //Act
-            Assert.Throws<ArgumentNullException>(() => userSearchFacade.SearchUserByName(username));
+            Assert.Throws<ArgumentNullException>(() => userSearchFacade.SearchUserByName(username, pageSize, pageNumber));
         }
 
         [Fact]
@@ -35,10 +45,12 @@ namespace ConsensusLibrary.Tests.UserTests
         {
             //Arrange
             var userRepository = new InMemoryUserRepository();
-            var userSearchFacade = new UserSearchFacade(userRepository);
+            var categoryRepository = new InMemoryCategoryRepository();
+            var debateRepository = new InMemoryDebateRepository();
+            var userSearchFacade = new UserSearchFacade(userRepository, debateRepository, categoryRepository);
             const string username = " ";
             //Act
-            Assert.Throws<ArgumentException>(() => userSearchFacade.SearchUserByName(username));
+            Assert.Throws<ArgumentException>(() => userSearchFacade.SearchUserByName(username, pageSize, pageNumber));
         }
 
         [Theory]
@@ -46,13 +58,16 @@ namespace ConsensusLibrary.Tests.UserTests
             MemberType = typeof(UserSearchFacadeTestsGenerator))]
         public void SearchUserByName_Username_GetResult(
             IUserRepository userRepository,
+            IDebateRepository debateRepository,
+            ICategoryRepository categoryRepository,
             string nameSector,
             int exceptedCount)
         {
             //Arrange
-            var userSearchFacade = new UserSearchFacade(userRepository);
+            var userSearchFacade = new UserSearchFacade(userRepository, debateRepository, categoryRepository);
+            
             //Act
-            var result = userSearchFacade.SearchUserByName(nameSector).Users.Count();
+            var result = userSearchFacade.SearchUserByName(nameSector, pageSize, pageNumber).Users.Count();
             //Assert
             Assert.Equal(exceptedCount, result);
         }

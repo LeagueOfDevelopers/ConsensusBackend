@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using ConsensusLibrary.CategoryContext;
+using ConsensusLibrary.DebateContext;
 using ConsensusLibrary.UserContext;
 
 namespace ConsensusLibrary.Tests.UserTests.ResultGenerator
@@ -8,10 +10,14 @@ namespace ConsensusLibrary.Tests.UserTests.ResultGenerator
         public static IEnumerable<object[]> GetUserNames()
         {
             var userRepository = new InMemoryUserRepository();
+            var debateRepository = new InMemoryDebateRepository();
+            var categoryRepository = new InMemoryCategoryRepository();
 
             yield return new object[]
             {
                 userRepository,
+                debateRepository,
+                categoryRepository,
                 "123",
                 0
             };
@@ -22,6 +28,8 @@ namespace ConsensusLibrary.Tests.UserTests.ResultGenerator
             yield return new object[]
             {
                 userRepository,
+                debateRepository,
+                categoryRepository,
                 "123",
                 1
             };
@@ -34,8 +42,38 @@ namespace ConsensusLibrary.Tests.UserTests.ResultGenerator
             yield return new object[]
             {
                 userRepository,
+                debateRepository,
+                categoryRepository,
                 "1",
                 3
+            };
+        }
+
+        public static IEnumerable<object[]> GetConstructorParams()
+        {
+            var userRepository = new InMemoryUserRepository();
+            var debateRepository = new InMemoryDebateRepository();
+            var categoryRepository = new InMemoryCategoryRepository();
+
+            yield return new object[]
+            {
+                userRepository,
+                debateRepository,
+                null
+            };
+
+            yield return new object[]
+            {
+                userRepository,
+                null,
+                categoryRepository
+            };
+
+            yield return new object[]
+            {
+                null,
+                debateRepository,
+                categoryRepository
             };
         }
     }
