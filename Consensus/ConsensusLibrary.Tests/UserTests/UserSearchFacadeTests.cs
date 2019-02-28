@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ConsensusLibrary.Tests.UserTests.ResultGenerator;
 using ConsensusLibrary.UserContext;
 using Xunit;
@@ -27,7 +25,7 @@ namespace ConsensusLibrary.Tests.UserTests
             var userSearchFacade = new UserSearchFacade(userRepository);
             const string username = null;
             //Act
-            Assert.Throws<ArgumentNullException>(() => userSearchFacade.SearchUserByName(username));
+            Assert.Throws<ArgumentNullException>(() => userSearchFacade.SearchUserByName(username, 1, 1));
         }
 
         [Fact]
@@ -38,7 +36,7 @@ namespace ConsensusLibrary.Tests.UserTests
             var userSearchFacade = new UserSearchFacade(userRepository);
             const string username = " ";
             //Act
-            Assert.Throws<ArgumentException>(() => userSearchFacade.SearchUserByName(username));
+            Assert.Throws<ArgumentException>(() => userSearchFacade.SearchUserByName(username, 1, 1));
         }
 
         [Theory]
@@ -52,7 +50,7 @@ namespace ConsensusLibrary.Tests.UserTests
             //Arrange
             var userSearchFacade = new UserSearchFacade(userRepository);
             //Act
-            var result = userSearchFacade.SearchUserByName(nameSector).Users.Count();
+            var result = userSearchFacade.SearchUserByName(nameSector, 5, 1).Users.Count();
             //Assert
             Assert.Equal(exceptedCount, result);
         }
