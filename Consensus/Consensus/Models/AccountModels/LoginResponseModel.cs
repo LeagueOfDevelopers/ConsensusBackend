@@ -8,16 +8,19 @@ namespace Consensus.Models.AccountModels
     public class LoginResponseModel
     {
         public LoginResponseModel(
-            string token,
-            string nickName,
-            string email,
-            DateTimeOffset registrationDateTime)
+            string token, 
+            string nickName, 
+            string email, 
+            DateTimeOffset registrationDateTime, 
+            string avatar)
         {
             Token = token;
             NickName = nickName;
             Email = email;
             RegistrationDateTime = registrationDateTime;
+            Avatar = avatar;
         }
+
 
 
         /// <summary>
@@ -30,5 +33,9 @@ namespace Consensus.Models.AccountModels
         ///     Дата регистрации пользователя
         /// </summary>
         public DateTimeOffset RegistrationDateTime { get; }
+        /// <summary>
+        /// Уникальный идентификатор файла в системе
+        /// </summary>
+        public string Avatar { get; }
     }
 }

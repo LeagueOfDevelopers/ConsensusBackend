@@ -16,7 +16,7 @@ namespace ConsensusLibrary.UserContext
             var currentUser = _userRepository.GetUserById(userId);
 
             var result = new LoginUserProfileView(currentUser.Credentials.NickName,
-                currentUser.Credentials.Email, currentUser.UserProfile.RegistrationDate);
+                currentUser.Credentials.Email, currentUser.UserProfile.RegistrationDate, currentUser.UserProfile.AvatarLink);
 
             return result;
         }
