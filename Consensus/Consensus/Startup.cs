@@ -67,7 +67,7 @@ namespace Consensus
 
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
-            var userProfileFacade = new UserProfileFacade(userRepository);
+            var userProfileFacade = new UserProfileFacade(userRepository, fileRepository, cryptoService);
             var useHangFire = Configuration.GetValue<bool>("UseHangFire");
             var hangFireConneсtionString = Configuration.GetValue<string>("HangFireConnectionString");
             var roundLength = Configuration.GetValue<TimeSpan>("DebateRoundLength");

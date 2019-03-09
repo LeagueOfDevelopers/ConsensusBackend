@@ -14,8 +14,8 @@ namespace ConsensusLibrary.UserContext
             Email = Ensure.String.IsNotNullOrWhiteSpace(email);
         }
 
-        public string PasswordHash { get; }
-        public string NickName { get; }
-        public string Email { get; }
+        public string PasswordHash { get; internal set; }
+        public string NickName { get; internal set; }
+        public string Email { get; internal set; }
     }
 }
