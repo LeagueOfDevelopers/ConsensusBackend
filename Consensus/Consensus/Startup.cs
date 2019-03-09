@@ -39,10 +39,31 @@ namespace Consensus
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var userRepository = new InMemoryUserRepository();
+            var dbSettings = Configuration.GetSection("DbSettings");
 
-            var categoryRepository = new InMemoryCategoryRepository();
-            FillCategories(categoryRepository);
+            IUserRepository userRepository;
+            ICategoryRepository categoryRepository;
+            IDebateRepository debateRepository;
+            IFileRepository fileRepository;
+
+            if (dbSettings.GetValue<bool>("UseDb"))
+            {
+                var connectionString = dbSettings.GetValue<string>("ConnectionString");
+
+                userRepository = new InMemoryUserRepository();
+                categoryRepository = new InPostgreSqlCategoryRepository(connectionString);
+                debateRepository = new InMemoryDebateRepository();
+                fileRepository = new InMemoryFileRepository();
+            }
+            else
+            {
+                userRepository = new InMemoryUserRepository();
+                categoryRepository = new InMemoryCategoryRepository();
+                debateRepository = new InMemoryDebateRepository();
+                fileRepository = new InMemoryFileRepository();
+                FillCategories(categoryRepository);
+            }
+
 
             var cryptoService = new CryptoServiceWithSalt();
             var registrationFacade = new RegistrationFacade(userRepository, cryptoService);
@@ -57,9 +78,7 @@ namespace Consensus
             var debateSettings = new DebateSettings(Configuration.GetValue<int>("DebateRoundCount"),
                 roundLength);
 
-            var debateRepository = new InMemoryDebateRepository();
 
-            var fileRepository = new InMemoryFileRepository();
             var fileSettings = new FileSettings(GenerateUploadPath());
             var fileFacade = new FileFacade(fileRepository, userRepository, fileSettings);
 

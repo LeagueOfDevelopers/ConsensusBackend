@@ -5,9 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.7" />
     <PackageReference Include="Ensure.That" Version="8.0.0" />
     <PackageReference Include="Hangfire" Version="1.6.21" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0-preview3-35497" />
+    <PackageReference Include="Npgsql" Version="4.0.4" />
   </ItemGroup>
 
 </Project>

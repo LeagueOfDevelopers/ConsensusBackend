@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Text;
 using ConsensusLibrary.CategoryContext;
@@ -38,6 +37,7 @@ namespace ConsensusLibrary.Tests.UserTests
             const string username = null;
             //Act
             Assert.Throws<ArgumentNullException>(() => userSearchFacade.SearchUserByName(username, pageSize, pageNumber));
+
         }
 
         [Fact]
@@ -51,6 +51,7 @@ namespace ConsensusLibrary.Tests.UserTests
             const string username = " ";
             //Act
             Assert.Throws<ArgumentException>(() => userSearchFacade.SearchUserByName(username, pageSize, pageNumber));
+
         }
 
         [Theory]
