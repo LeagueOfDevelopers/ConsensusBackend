@@ -12,13 +12,19 @@ namespace Consensus.Models.SearchModels
         /// Объект, содержащий id пользователя
         /// </summary>
         public Identifier UserIdentifier { get; }
+        /// <summary>
+        /// Уникальный индентификатор аватарки пользователя в системе
+        /// </summary>
+        public string Avatar { get; }
 
         public GetUserBySectionNameResponseItemModel(
             string userName,
-            Identifier userIdentifier)
+            Identifier userIdentifier,
+            string avatar)
         {
             UserName = userName;
             UserIdentifier = userIdentifier;
+            Avatar = avatar;
         }
     }
 }

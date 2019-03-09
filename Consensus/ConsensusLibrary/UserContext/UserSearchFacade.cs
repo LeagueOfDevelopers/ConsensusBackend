@@ -20,7 +20,7 @@ namespace ConsensusLibrary.UserContext
             var userViewList = new List<SearchUserByNameItemView>();
 
             appropriateUsers.ToList().ForEach(u => 
-                userViewList.Add(new SearchUserByNameItemView(u.Credentials.NickName, u.Identifier)));
+                userViewList.Add(new SearchUserByNameItemView(u.Credentials.NickName, u.Identifier, u.UserProfile.AvatarLink)));
 
             var result = new SearchUserByNameView(userViewList);
 

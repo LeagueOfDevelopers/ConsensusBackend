@@ -41,7 +41,7 @@ namespace Consensus.Controllers
             var userModels = new List<GetUserBySectionNameResponseItemModel>();
 
             result.Users.ToList().ForEach(u => userModels.Add(
-                new GetUserBySectionNameResponseItemModel(u.UserName, u.UserIdentifier)));
+                new GetUserBySectionNameResponseItemModel(u.UserName, u.UserIdentifier, u.Avatar)));
 
             var response = new GetUserBySectionNameResponseModel(userModels);
 
