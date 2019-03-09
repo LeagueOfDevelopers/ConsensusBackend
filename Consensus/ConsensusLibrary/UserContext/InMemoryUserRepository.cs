@@ -55,8 +55,8 @@ namespace ConsensusLibrary.UserContext
 
         public User TryGetUserByEmailOrNickName(string email, string nickName)
         {
-            Ensure.String.IsNotNullOrWhiteSpace(email);
-            Ensure.String.IsNotNullOrWhiteSpace(nickName);
+            Ensure.Any.IsNotNull(email);
+            Ensure.Any.IsNotNull(nickName);
 
             email = email.ToLower();
             nickName = nickName.ToLower();
