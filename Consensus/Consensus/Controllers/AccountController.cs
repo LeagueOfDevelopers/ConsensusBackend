@@ -53,7 +53,7 @@ namespace Consensus.Controllers
             var response = new LoginResponseModel(
                 _jwtIssuer.IssueJwt(Claims.Roles.User, userIdentifier.Identifier.Id),
                 currentUserProfile.NickName, currentUserProfile.Email,
-                currentUserProfile.RegistrationDateTime);
+                currentUserProfile.RegistrationDateTime, currentUserProfile.Avatar);
 
             return Ok(response);
         }
