@@ -13,5 +13,17 @@ namespace ConsensusLibrary.UserContext
         {
             RegistrationDate = registrationDate;
         }
+
+        internal UserProfile(
+            string about,
+            string avatarLink,
+            int reputation,
+            DateTimeOffset registrationDate)
+        {
+            About = about;
+            AvatarLink = avatarLink;
+            Reputation = reputation;
+            RegistrationDate = registrationDate;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace Consensus
             {
                 var connectionString = dbSettings.GetValue<string>("ConnectionString");
 
-                userRepository = new InMemoryUserRepository();
+                userRepository = new InPostgreSqlUserRepository(connectionString);
                 categoryRepository = new InPostgreSqlCategoryRepository(connectionString);
                 debateRepository = new InMemoryDebateRepository();
                 fileRepository = new InMemoryFileRepository();
