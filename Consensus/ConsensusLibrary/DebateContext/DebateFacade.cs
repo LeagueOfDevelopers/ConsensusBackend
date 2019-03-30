@@ -111,7 +111,7 @@ namespace ConsensusLibrary.DebateContext
             if (debate.State == DebateState.Approved)
                 Task.Delay(10000).ContinueWith(f => CloseTranslationThread()); // TODO config values
 
-            _debateRepository.UpdateDebate(debate);
+            _debateRepository.SetReadyStatus(debate, userId);
         }
 
 

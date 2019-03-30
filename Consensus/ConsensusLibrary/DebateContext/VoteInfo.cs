@@ -12,5 +12,12 @@ namespace ConsensusLibrary.DebateContext
 
         public Identifier FromUser { get; }
         public Identifier ToUser { get; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is VoteInfo info &&
+                   FromUser.Id == info.FromUser.Id &&
+                   ToUser.Id == info.ToUser.Id;
+        }
     }
 }

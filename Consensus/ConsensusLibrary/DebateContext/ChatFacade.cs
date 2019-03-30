@@ -47,7 +47,7 @@ namespace ConsensusLibrary.DebateContext
 
             currentDebate.AddMessage(addingMessage);
 
-            _debateRepository.UpdateDebate(currentDebate);
+            _debateRepository.SendMessage(addingMessage);
 
             return addingMessage.Id;
         }

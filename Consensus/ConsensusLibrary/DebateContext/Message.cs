@@ -14,9 +14,17 @@ namespace ConsensusLibrary.DebateContext
             SentOn = DateTimeOffset.UtcNow;
         }
 
-        internal Message(Identifier userId, Identifier debateId, string text, DateTimeOffset sentOn) : this(userId,
-            debateId, text)
+        public Message(
+            Identifier id,
+            Identifier userId,
+            Identifier debateId,
+            string text,
+            DateTimeOffset sentOn)
         {
+            Id = id;
+            UserId = userId;
+            DebateId = debateId;
+            Text = text;
             SentOn = sentOn;
         }
 

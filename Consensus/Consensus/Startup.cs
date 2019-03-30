@@ -52,7 +52,7 @@ namespace Consensus
 
                 userRepository = new InPostgreSqlUserRepository(connectionString);
                 categoryRepository = new InPostgreSqlCategoryRepository(connectionString);
-                debateRepository = new InMemoryDebateRepository();
+                debateRepository = new InPostgreSqlDebateRepository(connectionString);
                 fileRepository = new InPostgreSqlFileRepository(connectionString);
             }
             else

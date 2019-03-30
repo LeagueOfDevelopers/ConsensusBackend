@@ -40,7 +40,7 @@ namespace ConsensusLibrary.BackgroundProcessService
         {
             var debate = _debateRepository.GetDebate(debateId);
             debate.CheckDebateStatus();
-            _debateRepository.UpdateDebate(debate);
+            _debateRepository.UpdateDebateStatus(debate);
         }
 
         private readonly BackgroundProcessServiceSettings _settings;

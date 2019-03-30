@@ -61,6 +61,18 @@ namespace ConsensusLibrary.DebateContext
             return debate;
         }
 
+        public void SendMessage(Message newMessage)
+        {
+        }
+
+        public void UpdateDebateStatus(Debate debate)
+        {
+        }
+
+        public void SetReadyStatus(Debate debate, Identifier memberId)
+        {
+        }
+
         public Debate GetDebate(Identifier identifier)
         {
             Ensure.Any.IsNotNull(identifier);
@@ -79,10 +91,6 @@ namespace ConsensusLibrary.DebateContext
             var debates = _debates.Where(d => d.Members.Any(m => m.UserIdentifier.Id == identifier.Id));
 
             return debates;
-        }
-
-        public void UpdateDebate(Debate newDebate)
-        {
         }
     }
 }

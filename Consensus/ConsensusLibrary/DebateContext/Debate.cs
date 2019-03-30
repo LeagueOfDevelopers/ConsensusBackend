@@ -57,6 +57,32 @@ namespace ConsensusLibrary.DebateContext
             State = DebateState.Waiting;
         }
 
+        internal Debate(
+            IEnumerable<DebateMember> members,
+            IEnumerable<Message> messages,
+            IEnumerable<VoteInfo> votes,
+            Identifier identifier,
+            DateTimeOffset startDateTime,
+            string title,
+            Category debateCategory,
+            IEnumerable<Round> rounds,
+            DebateState state,
+            int roundCount,
+            TimeSpan roundLength)
+        {
+            _members = members.ToList();
+            _messages = messages.ToList();
+            _votes = votes.ToList();
+            Identifier = identifier;
+            StartDateTime = startDateTime;
+            Title = title;
+            DebateCategory = debateCategory;
+            Rounds = rounds;
+            State = state;
+            RoundCount = roundCount;
+            RoundLength = roundLength;
+        }
+
         public Identifier Identifier { get; }
         public DateTimeOffset StartDateTime { get; private set; }
         public DateTimeOffset EndDateTime => StartDateTime.Add(RoundLength * RoundCount);
@@ -93,7 +119,7 @@ namespace ConsensusLibrary.DebateContext
         {
             Ensure.Any.IsNotNull(userId);
 
-            var targetMember = Members.FirstOrDefault(m => m.UserIdentifier == userId);
+            var targetMember = Members.FirstOrDefault(m => m.UserIdentifier.Id == userId.Id);
 
             Ensure.Any.IsNotNull(targetMember, nameof(targetMember),
                 opt => opt.WithException(new InvalidOperationException()));

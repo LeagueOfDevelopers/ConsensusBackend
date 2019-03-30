@@ -15,6 +15,15 @@ namespace ConsensusLibrary.DebateContext
             Ready = false;
         }
 
+        internal DebateMember(
+            MemberRole memberRole,
+            Identifier userIdentifier,
+            string translationLink, bool ready)
+            : this(memberRole, userIdentifier, translationLink)
+        {
+            Ready = ready;
+        }
+
         public MemberRole MemberRole { get; }
         public Identifier UserIdentifier { get; }
         public string TranslationLink { get; }

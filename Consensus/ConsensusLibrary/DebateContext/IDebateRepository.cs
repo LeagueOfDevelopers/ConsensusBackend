@@ -15,6 +15,10 @@ namespace ConsensusLibrary.DebateContext
             bool isLive,
             int pageSize,
             int pageNumber);
-        void UpdateDebate(Debate newDebate);
+
+        void SendMessage(Message newMessage);
+        void UpdateDebateStatus(Debate debate);
+        void SetReadyStatus(Debate debate, Identifier memberId);
+
     }
 }

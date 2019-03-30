@@ -31,7 +31,7 @@ namespace ConsensusLibrary.BackgroundProcessService
                 timer.Stop();
                 var debate = _debateRepository.GetDebate(debateId);
                 debate.CheckDebateStatus();
-                _debateRepository.UpdateDebate(debate);
+                _debateRepository.UpdateDebateStatus(debate);
             };
 
         }
